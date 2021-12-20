@@ -3,12 +3,12 @@ add_library(Ubx::Object ALIAS UbxObject)
 
 target_sources(UbxObject
 PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/UbxUtilities.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ubx_utilities.cpp
 
 PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/../include/UbxFrame.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../include/UbxTypes.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../include/UbxUtilities.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include/ubx_frame.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include/ubx_types.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include/ubx_utilities.hpp
 )
 
 target_include_directories(UbxObject

@@ -3,34 +3,40 @@
 
 namespace ubx
 {
-/**
- * Base class for every ubx related message.
- */
-template<class message_t>
+template<typename handler_t>
 class message
 {
 public:
-    /**
-     * Default virtual destructor
-     */
-    virtual ~message() = default;
+    ~message() = default;
 
-    /**
-     * Dispatch the message to the handler.
-     *
-     * @param handler The handler that shall receive the message.
-     */
-    template<typename handler_t>
-    void dispatch(handler_t &handler)
+    void handle(handler_t &handler)
     {
-        handler.handle(static_cast<message_t&>(*this));
+        dispatch_impl(handler);
     }
 
 protected:
+    virtual void dispatch_impl(handler_t& handler) = 0;
+//    {
+//        handler.handle(static_cast<message&>(*this));
+//    }
+};
+
+/**
+ * Base class for every ubx related message.
+ */
+template<typename message_t, typename handler_t>
+class message_base : public message<handler_t>
+{
+protected:
     /**
-     * Constructs a message.
+     * Call the message specific handle function in the handler.
+     *
+     * @param handler The handler that shall receive the message.
      */
-    message() = default;
+    void dispatch_impl(handler_t &handler) override
+    {
+        handler.handle(static_cast<message_t&>(*this));
+    }
 };
 
 } //namespace ubx

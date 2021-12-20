@@ -5,10 +5,13 @@ enable_testing()
 include(CTest)
 include(Catch)
 
-add_executable(test_frame Test_Frame.cpp)
+add_executable(test_frame test_frame.cpp)
 target_link_libraries(test_frame PRIVATE Catch2::Catch2 Ubx::Object)
 
-add_executable(test_message Test_Message.cpp)
+add_executable(test_message test_message.cpp)
 target_link_libraries(test_message PRIVATE Catch2::Catch2 Ubx::Object)
+
+add_executable(test_frame_processor test_frame_processor.cpp)
+target_link_libraries(test_frame_processor PRIVATE Catch2::Catch2 Ubx::Object)
 
 catch_discover_tests(test_message)
