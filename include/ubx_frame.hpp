@@ -1,8 +1,8 @@
 #ifndef __FRAME__H__
 #define __FRAME__H__
 
-#include "UbxTypes.hpp"
-#include "UbxUtilities.hpp"
+#include "ubx_types.hpp"
+#include "ubx_utilities.hpp"
 #include <vector>
 #include <iterator>
 
