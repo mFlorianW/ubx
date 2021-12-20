@@ -6,8 +6,17 @@
 #include <vector>
 #include <iterator>
 
-namespace Ubx
+namespace ubx
 {
+
+enum class frame_read_result
+{
+    ok,
+    incomplete_data,
+    corrupted_frame,
+    checksum_error
+};
+
 /**
  * Representation of a UBX frame.
  *
@@ -19,17 +28,10 @@ namespace Ubx
  * ...
  * @endcode
  */
-template<class read_iterator>
+template<class iterator>
 class frame
 {
 public:
-    enum class read_result
-    {
-        ok,
-        incomplete_data,
-        corrupted_frame
-    };
-
     /**
      * @return class_id The class id of the frame.
      */
@@ -65,43 +67,71 @@ public:
     /**
      * Reads the frame from the iterator with given length.
      *
-     * @param data pointer to the buffer
+     * @param frame_begin iterator to the begin of the frame
      * @param length the length of the buffer
-     * @return incomplete_data when the frame isn't received completly.
-     * @return corrupted_data when the frame contains corrupted data.
-     * return ok frame succesful read.
+     *
+     * @return frame_read_result::incomplete_data when the frame isn't received completly.
+     * @return frame_read_result::corrupted_data when the frame contains corrupted data.
+     * @return frame_read_result::ok frame succesful read.
      */
-    read_result read(read_iterator raw_frame, size_t len)
+    frame_read_result read(iterator frame_begin, iterator frame_end)
     {
-        static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
+        static_assert(std::is_same<typename std::iterator_traits<iterator>::value_type,  std::uint8_t>::value,
                       "The iterator must be of type std::unit8_t");
 
-        if(len < 5)
+        constexpr size_t frame_header_size = 6;
+        auto len = std::distance(frame_begin, frame_end);
+        if(len < frame_header_size)
         {
-            return read_result::incomplete_data;
+            return frame_read_result::incomplete_data;
         }
 
         //Check for preamble
-        if(raw_frame[0] != 0xb5 || raw_frame[1] != 0x62)
+        if(frame_begin[0] != 0xb5 || frame_begin[1] != 0x62)
         {
-            return read_result::corrupted_frame;
+            return frame_read_result::corrupted_frame;
         }
 
-        m_class_id = static_cast<class_id>(raw_frame[2]);
-        m_message_id = raw_frame[3];
-        m_payload_length = Utilities::get_uint16(raw_frame[5], raw_frame[4]);
+        m_class_id = static_cast<class_id>(frame_begin[2]);
+        m_message_id = frame_begin[3];
+        m_payload_length = utilities::get_uint16(frame_begin[5], frame_begin[4]);
 
-        if(len < 6 + m_payload_length)
+        constexpr size_t checksum_length = 2;
+        if(len < frame_header_size + m_payload_length + checksum_length)
         {
-            return read_result::incomplete_data;
+            return frame_read_result::incomplete_data;
         }
 
-        calculate_checksum(raw_frame, len);
-        return read_result::ok;
+        if(calculate_checksum(frame_begin, len) != frame_read_result::ok)
+        {
+            return frame_read_result::checksum_error;
+        }
+
+        m_payload_begin = frame_begin + frame_header_size;
+        m_payload_end = frame_begin + frame_header_size + m_payload_length;
+        return frame_read_result::ok;
+    }
+
+    /**
+     * @note Is only valid after read(...) results with frame_read_result::ok.
+     * @return Gives the iterator where the payload starts.
+     */
+    iterator get_payload_begin() const noexcept
+    {
+        return m_payload_begin;
+    }
+
+    /**
+     * @note Is only valid after read(...) results with frame_read_result::ok.
+     * @return Gives the iterator where the payload ends.
+     */
+    iterator get_payload_end() const noexcept
+    {
+        return m_payload_end;
     }
 
 private:
-    void calculate_checksum(read_iterator raw_frame, size_t len)
+    frame_read_result calculate_checksum(iterator raw_frame, size_t len)
     {
         std::uint16_t cka = 0;
         std::uint16_t ckb = 0;
@@ -120,10 +150,12 @@ private:
         cka = cka & 0xFF;
         ckb = ckb & 0xFF;
 
-        if(cka == received_cka && ckb == received_ckb)
+        if(cka != received_cka || ckb != received_ckb)
         {
-            m_checksum_result = true;
+            return frame_read_result::checksum_error;
         }
+
+        return frame_read_result::ok;
     }
 
 private:
@@ -131,6 +163,8 @@ private:
     std::uint8_t m_message_id{0};
     std::uint16_t m_payload_length{0};
     bool m_checksum_result{false};
+    iterator m_payload_begin;
+    iterator m_payload_end;
 };
 
 } //Ubx

@@ -3,9 +3,9 @@
 
 #include <cstdint>
 
-namespace Ubx
+namespace ubx
 {
-    
+
 enum class_id : uint8_t
 {
     unknown = 0x00,
@@ -25,7 +25,7 @@ enum class_id : uint8_t
     hnr = 0x28,
 };
 
-}//Ubx
+} //ubx
 
 
 #endif  //!__UBXTYPES__H__

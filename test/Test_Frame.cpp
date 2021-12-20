@@ -2,7 +2,7 @@
 #include <catch2/catch.hpp>
 #include "UbxFrame.hpp"
 
-using namespace Ubx;
+using namespace ubx;
 
 namespace
 {
@@ -18,7 +18,7 @@ using vector_frame = frame<std::vector<std::uint8_t>::const_iterator>;
 TEST_CASE("Get class id from frame.")
 {
     vector_frame fr;
-    fr.read(frame_without_payload.cbegin(), frame_without_payload.size());
+    fr.read(frame_without_payload.cbegin(), frame_with_payload.cend());
 
     REQUIRE(fr.get_class_id() == class_id::nav);
 }
@@ -26,7 +26,7 @@ TEST_CASE("Get class id from frame.")
 TEST_CASE("Get message id from frame")
 {
     vector_frame fr;
-    fr.read(frame_without_payload.cbegin(), frame_without_payload.size());
+    fr.read(frame_without_payload.cbegin(), frame_with_payload.cend());
 
     REQUIRE(fr.get_message_id() == 0x22);
 }
@@ -34,7 +34,7 @@ TEST_CASE("Get message id from frame")
 TEST_CASE("Get payload length from frame")
 {
     vector_frame fr;
-    fr.read(frame_with_payload.cbegin(), frame_with_payload.size());
+    fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
 
     REQUIRE(fr.get_payload_length() == 0x01);
 }
@@ -43,38 +43,58 @@ TEST_CASE("Check frame checksum")
 {
     vector_frame fr;
 
-    fr.read(frame_with_payload.cbegin(), frame_with_payload.size());
-    REQUIRE(fr.validate_checksum() == true);
+    auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
+    REQUIRE(result == frame_read_result::ok);
 }
 
 TEST_CASE("Get error when checkusm not match")
 {
     vector_frame fr;
 
-    fr.read(frame_with_crc_error.cbegin(), frame_with_crc_error.size());
-    REQUIRE(fr.validate_checksum() == false);
+    auto result = fr.read(frame_with_crc_error.cbegin(), frame_with_crc_error.cend());
+    REQUIRE(result == frame_read_result::checksum_error);
 }
 
 TEST_CASE("Give ok status on succesful read frame")
 {
     vector_frame fr;
 
-    auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.size());
-    REQUIRE(result == vector_frame::read_result::ok);
+    auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
+    REQUIRE(result == frame_read_result::ok);
 }
 
-TEST_CASE("Give not enough data on reading frame chung")
+TEST_CASE("Give not enough data on reading frame chunk")
 {
     vector_frame fr;
 
-    auto result = fr.read(frame_chunk.cbegin(), frame_chunk.size());
-    REQUIRE(result == vector_frame::read_result::incomplete_data);
+    auto result = fr.read(frame_chunk.cbegin(), frame_chunk.cend());
+    REQUIRE(result == frame_read_result::incomplete_data);
 }
 
-TEST_CASE("Dected corrupted data broken preamble")
+TEST_CASE("Detect corrupted data broken preamble")
 {
     vector_frame fr;
 
-    auto result = fr.read(frame_corrupted.cbegin(), frame_chunk.size());
-    REQUIRE(result == vector_frame::read_result::corrupted_frame);
+    auto result = fr.read(frame_corrupted.cbegin(), frame_chunk.cend());
+    REQUIRE(result == frame_read_result::corrupted_frame);
+}
+
+TEST_CASE("Return read iterator for payload begin")
+{
+    vector_frame fr;
+    const auto expected_iterator = frame_with_payload.cbegin() + 6;
+
+    auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
+    REQUIRE(result == frame_read_result::ok);
+    REQUIRE(fr.get_payload_begin() == expected_iterator);
+}
+
+TEST_CASE("Return end iterator for the payload")
+{
+    vector_frame fr;
+    const auto expected_iterator = frame_with_payload.cbegin() + 7;
+
+    auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
+    REQUIRE(result == frame_read_result::ok);
+    REQUIRE(fr.get_payload_end() == expected_iterator);
 }

@@ -5,5 +5,10 @@ project(LibUBX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(ENABLE_TEST "Enable unit tests" OFF)
+
 add_subdirectory(src)
-add_subdirectory(test)
+
+if(ENABLE_TEST)
+    add_subdirectory(test)
+endif(ENABLE_TEST)
