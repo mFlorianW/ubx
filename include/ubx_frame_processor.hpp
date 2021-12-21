@@ -6,11 +6,9 @@
 
 namespace ubx
 {
-template<typename message_factory_t, typename message_handler_t, typename all>
-class frame_processor;
 
-template<typename message_factory_t, typename message_handler_t, typename first_message, typename... last_messages>
-class frame_processor<message_factory_t, message_handler_t, std::tuple<first_message, last_messages...>>
+template<typename message_factory_t, typename message_handler_t>
+class frame_processor
 {
 public:
     /**

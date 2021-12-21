@@ -16,9 +16,6 @@ public:
 
 protected:
     virtual void dispatch_impl(handler_t& handler) = 0;
-//    {
-//        handler.handle(static_cast<message&>(*this));
-//    }
 };
 
 /**

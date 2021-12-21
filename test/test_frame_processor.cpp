@@ -6,11 +6,11 @@
 
 using namespace ubx;
 
-class testable_handler;
+class testing_handler;
 using read_iterator = std::vector<std::uint8_t>::iterator;
-using msg = message<testable_handler>;
+using msg = message<testing_handler>;
 
-class simple_uint8_message final : public message_base<simple_uint8_message, testable_handler>
+class simple_uint8_message final : public message_base<simple_uint8_message, testing_handler>
 {
 public:
     template<typename read_iterator>
@@ -28,10 +28,11 @@ private:
     std::uint32_t m_msg_value;
 };
 
-template<typename  read_iterator = read_iterator>
+
 class simple_msg_factory final
 {
 public:
+    template<typename  read_iterator>
     std::unique_ptr<msg> create_message(std::uint8_t class_id,
                                         std::uint8_t message_id,
                                         read_iterator payload_begin,
@@ -41,7 +42,7 @@ public:
     }
 };
 
-class testable_handler
+class testing_handler
 {
 public:
     void handle(simple_uint8_message &msg)
@@ -66,12 +67,9 @@ auto frame_with_payload =  std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x0
 
 TEST_CASE("read in frame and dispatch message to the handler")
 {
-    using messages = std::tuple<simple_uint8_message>;
     simple_msg_factory msg_factory;
-    testable_handler msg_handler;
-    frame_processor<simple_msg_factory<read_iterator>,
-                    testable_handler,
-                    messages> frp{msg_factory, msg_handler};
+    testing_handler msg_handler;
+    frame_processor<simple_msg_factory, testing_handler> frp{msg_factory, msg_handler};
 
     frp.process_data(frame_with_payload.begin(), frame_with_payload.end());
     REQUIRE(msg_handler.is_simple_uint8_handle_called() == true);

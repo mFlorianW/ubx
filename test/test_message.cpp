@@ -5,10 +5,10 @@
 using namespace ubx;
 
 class testable_message;
-class testable_handler
+class testing_handler
 {
 public:
-    void handle(message<testable_handler> &msg)
+    void handle(message<testing_handler> &msg)
     {
     }
 
@@ -20,14 +20,14 @@ public:
     bool handle_called{false};
 };
 
-class testable_message : public message_base<testable_message, testable_handler>
+class testable_message : public message_base<testable_message, testing_handler>
 {
 };
 
 TEST_CASE("Dispatch shall call handle object")
 {
     testable_message msg;
-    testable_handler hdl;
+    testing_handler hdl;
 
     msg.handle(hdl);
 
