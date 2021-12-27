@@ -1,17 +1,13 @@
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
 #include "ubx_message.hpp"
+#include <catch2/catch.hpp>
 
 using namespace ubx;
 
 class testable_message;
-class testing_handler
+class test_message_handler : public message_handler<testable_message>
 {
 public:
-    void handle(message<testing_handler> &msg)
-    {
-    }
-
     void handle(testable_message& msg)
     {
         handle_called = true;
@@ -20,16 +16,16 @@ public:
     bool handle_called{false};
 };
 
-class testable_message : public message_base<testable_message, testing_handler>
+class testable_message : public message_base<testable_message>
 {
 };
 
 TEST_CASE("Dispatch shall call handle object")
 {
     testable_message msg;
-    testing_handler hdl;
+    test_message_handler hdl;
 
-    msg.handle(hdl);
+    msg.dispatch(hdl);
 
     REQUIRE(hdl.handle_called == true);
 }

@@ -8,9 +8,8 @@ using namespace ubx;
 
 class testing_handler;
 using read_iterator = std::vector<std::uint8_t>::iterator;
-using msg = message<testing_handler>;
 
-class simple_uint8_message final : public message_base<simple_uint8_message, testing_handler>
+class simple_uint8_message final : public message_base<simple_uint8_message>
 {
 public:
     template<typename read_iterator>
@@ -28,21 +27,20 @@ private:
     std::uint32_t m_msg_value;
 };
 
-
 class simple_msg_factory final
 {
 public:
     template<typename  read_iterator>
-    std::unique_ptr<msg> create_message(std::uint8_t class_id,
-                                        std::uint8_t message_id,
-                                        read_iterator payload_begin,
-                                        read_iterator payload_end)
+    std::unique_ptr<message> create_message(std::uint8_t class_id,
+                                            std::uint8_t message_id,
+                                            read_iterator payload_begin,
+                                            read_iterator payload_end)
     {
         return std::make_unique<simple_uint8_message>(payload_begin, payload_end);
     }
 };
 
-class testing_handler
+class testing_handler : public message_handler<simple_uint8_message>
 {
 public:
     void handle(simple_uint8_message &msg)

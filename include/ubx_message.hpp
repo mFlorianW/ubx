@@ -1,38 +1,49 @@
 #ifndef UBXMESSAGE_HPP
 #define UBXMESSAGE_HPP
 
+#include <type_traits>
+#include <typeinfo>
+#include <iostream>
+
 namespace ubx
 {
-template<typename handler_t>
+class message_handler_base
+{
+public:
+    virtual ~message_handler_base() = default;
+};
+
+template<typename message_type>
+class message_handler : public message_handler_base
+{
+public:
+    virtual ~message_handler() = default;
+
+    virtual void handle(message_type &message) = 0;
+};
+
 class message
 {
 public:
-    ~message() = default;
+    virtual ~message() = default;
 
-    void handle(handler_t &handler)
-    {
-        dispatch_impl(handler);
-    }
+    virtual void dispatch(message_handler_base &handler) = 0;
 
 protected:
-    virtual void dispatch_impl(handler_t& handler) = 0;
+    template<typename message_type>
+    void dispatch_impl(message_handler_base &handler, message_type &message)
+    {
+        static_cast<message_handler<message_type>&>(handler).handle(message);
+    }
 };
 
-/**
- * Base class for every ubx related message.
- */
-template<typename message_t, typename handler_t>
-class message_base : public message<handler_t>
+template<typename message_t>
+class message_base : public message
 {
-protected:
-    /**
-     * Call the message specific handle function in the handler.
-     *
-     * @param handler The handler that shall receive the message.
-     */
-    void dispatch_impl(handler_t &handler) override
+public:
+    void dispatch(message_handler_base &handler) override
     {
-        handler.handle(static_cast<message_t&>(*this));
+        dispatch_impl(handler, *this);
     }
 };
 

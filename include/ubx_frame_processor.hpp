@@ -31,11 +31,11 @@ public:
         fr.read(data_begin, data_end);
 
         auto msg_ptr = m_msg_factory.create_message(fr.get_class_id(),
-                                                   fr.get_message_id(),
-                                                   fr.get_payload_begin(),
-                                                   fr.get_payload_end());
+                                                    fr.get_message_id(),
+                                                    fr.get_payload_begin(),
+                                                    fr.get_payload_end());
 
-        msg_ptr->handle(m_msg_handler);
+        msg_ptr->dispatch(m_msg_handler);
     }
 
 private:

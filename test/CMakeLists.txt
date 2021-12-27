@@ -14,4 +14,4 @@ target_link_libraries(test_message PRIVATE Catch2::Catch2 Ubx::Object)
 add_executable(test_frame_processor test_frame_processor.cpp)
 target_link_libraries(test_frame_processor PRIVATE Catch2::Catch2 Ubx::Object)
 
-catch_discover_tests(test_message)
+#catch_discover_tests(test_message)
