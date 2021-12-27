@@ -10,5 +10,6 @@ option(ENABLE_TEST "Enable unit tests" OFF)
 add_subdirectory(src)
 
 if(ENABLE_TEST)
+    enable_testing()
     add_subdirectory(test)
 endif(ENABLE_TEST)
