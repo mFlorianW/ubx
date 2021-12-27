@@ -27,7 +27,7 @@ enum class frame_read_result
  * ...
  * @endcode
  */
-template<class iterator>
+template<class read_iterator>
 class frame
 {
 public:
@@ -73,9 +73,9 @@ public:
      * @return frame_read_result::corrupted_data when the frame contains corrupted data.
      * @return frame_read_result::ok frame succesful read.
      */
-    frame_read_result read(iterator frame_begin, iterator frame_end)
+    frame_read_result read(const read_iterator &frame_begin, const read_iterator &frame_end)
     {
-        static_assert(std::is_same<typename std::iterator_traits<iterator>::value_type,  std::uint8_t>::value,
+        static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
                       "The iterator must be of type std::unit8_t");
 
         constexpr size_t frame_header_size = 6;
@@ -115,7 +115,7 @@ public:
      * @note Is only valid after read(...) results with frame_read_result::ok.
      * @return Gives the iterator where the payload starts.
      */
-    iterator get_payload_begin() const noexcept
+    const read_iterator& get_payload_begin() const noexcept
     {
         return m_payload_begin;
     }
@@ -124,13 +124,13 @@ public:
      * @note Is only valid after read(...) results with frame_read_result::ok.
      * @return Gives the iterator where the payload ends.
      */
-    iterator get_payload_end() const noexcept
+    const read_iterator& get_payload_end() const noexcept
     {
         return m_payload_end;
     }
 
 private:
-    frame_read_result calculate_checksum(iterator raw_frame, size_t len)
+    frame_read_result calculate_checksum(const read_iterator &raw_frame, size_t len)
     {
         std::uint16_t cka = 0;
         std::uint16_t ckb = 0;
@@ -162,8 +162,8 @@ private:
     std::uint8_t m_message_id{0};
     std::uint16_t m_payload_length{0};
     bool m_checksum_result{false};
-    iterator m_payload_begin;
-    iterator m_payload_end;
+    read_iterator m_payload_begin;
+    read_iterator m_payload_end;
 };
 
 } //Ubx
