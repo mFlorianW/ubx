@@ -26,8 +26,18 @@ class message
 {
 public:
     virtual ~message() = default;
-
     virtual void dispatch(message_handler_base &handler) = 0;
+
+    /**
+     * Gives the status about the message if it is in a valid state. The status is set by a message after deserializing
+     * a message from the raw data.
+     *
+     * @return The deserializing the message was correctly, otherwise false.
+     */
+    bool is_valid() const noexcept
+    {
+        return m_status;
+    }
 
 protected:
     template<typename message_type>
@@ -35,6 +45,9 @@ protected:
     {
         static_cast<message_handler<message_type>&>(handler).handle(message);
     }
+
+    bool m_status{false};
+
 };
 
 template<typename message_t>

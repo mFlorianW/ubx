@@ -3,7 +3,6 @@
 
 #include "ubx_types.hpp"
 #include "ubx_utilities.hpp"
-#include <vector>
 #include <iterator>
 
 namespace ubx

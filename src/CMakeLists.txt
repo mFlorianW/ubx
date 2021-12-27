@@ -18,7 +18,9 @@ PUBLIC
 target_include_directories(UbxObject
     PUBLIC
         $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:include/messages>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/messages>
 )
 
 add_library(Ubx SHARED)
