@@ -38,7 +38,6 @@ TEST_CASE("ack message shall give the messagie id for the acknowledged message")
 TEST_CASE("ack message shall be invalid when the raw data is not long enough")
 {
     ack_message msg(invalid_ack_msg.cbegin(), invalid_ack_msg.cend());
-    constexpr std::uint8_t expected_message_id = 0x10;
 
     REQUIRE(msg.is_valid() == false);
 }
