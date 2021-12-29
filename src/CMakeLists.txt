@@ -13,14 +13,18 @@ PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/ubx_message.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/ubx_frame_processor.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/ubx_message_factory.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include/messages/ubx_ack_message.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include/messages/ubx_nack_message.hpp
 )
 
 target_include_directories(UbxObject
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<INSTALL_INTERFACE:include/messages>
+        $<INSTALL_INTERFACE:include/private>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/messages>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/private>
 )
 
 add_library(Ubx SHARED)
