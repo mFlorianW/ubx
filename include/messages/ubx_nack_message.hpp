@@ -39,7 +39,7 @@ nack_message::nack_message(const read_iterator &begin, const read_iterator &end)
     m_status = true;
 }
 
-std::uint8_t nack_message::get_not_acknowledged_class_id() const noexcept
+inline std::uint8_t nack_message::get_not_acknowledged_class_id() const noexcept
 {
     return m_class_id;
 }
