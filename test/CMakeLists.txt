@@ -18,6 +18,9 @@ target_link_libraries(test_ack_message PRIVATE Catch2::Catch2 Ubx::Object)
 add_executable(test_nack_message test_nack_message.cpp)
 target_link_libraries(test_nack_message PRIVATE Catch2::Catch2 Ubx::Object)
 
+add_executable(test_port_configuration_poll_message test_port_configuration_poll_message.cpp)
+target_link_libraries(test_port_configuration_poll_message PRIVATE Catch2::Catch2 Ubx::Object)
+
 catch_discover_tests(test_frame)
 catch_discover_tests(test_message)
 catch_discover_tests(test_frame_processor)
