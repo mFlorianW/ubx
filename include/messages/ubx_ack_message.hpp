@@ -2,7 +2,6 @@
 #define UBX_ACK_MESSAGE_HPP
 
 #include "ubx_message.hpp"
-#include "ubx_ack_nack_message.hpp"
 #include "private/ubx_ack_nack_message_reader.hpp"
 #include <iterator>
 
