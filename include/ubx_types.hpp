@@ -25,6 +25,12 @@ enum class_id : uint8_t
     hnr = 0x28,
 };
 
+enum class port_id : std::uint8_t
+{
+    uart0 = 0x01,
+    uart1 = 0x02
+};
+
 } //ubx
 
 

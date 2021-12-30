@@ -1,17 +1,12 @@
 #ifndef UBX_PORT_CONFIGURATION_POLL_MESSAGE_HPP
 #define UBX_PORT_CONFIGURATION_POLL_MESSAGE_HPP
 
+#include "ubx_types.hpp"
 #include <cstdint>
 #include <iterator>
 
 namespace ubx
 {
-
-enum class port_id : std::uint8_t
-{
-    uart0 = 0x00,
-    uart1 = 0x01
-};
 
 class port_configuration_poll_message
 {

@@ -7,8 +7,8 @@ using namespace ubx;
 
 namespace
 {
-constexpr auto valid_uart0_port_configuration_poll = std::array<std::uint8_t, 1>{ 0x00 };
-constexpr auto valid_uart1_port_configuration_poll = std::array<std::uint8_t, 1>{ 0x01 };
+constexpr auto valid_uart0_port_configuration_poll = std::array<std::uint8_t, 1>{ 0x01 };
+constexpr auto valid_uart1_port_configuration_poll = std::array<std::uint8_t, 1>{ 0x02 };
 }
 
 TEST_CASE("port configuration shall be serializable with uart0")
