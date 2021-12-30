@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include "ubx_uart_port_configuration_message.hpp"
+#include "ubx_port_configuration_message.hpp"
 #include "test_raw_messages.hpp"
 #include <catch2/catch.hpp>
 
@@ -7,21 +7,21 @@ using namespace ubx;
 
 TEST_CASE("Default constructed port configuration shall be invalid")
 {
-    auto uart_port_cfg = uart_port_confugiration_message();
+    auto uart_port_cfg = port_configuration_message();
 
     REQUIRE(uart_port_cfg.is_valid() == false);
 }
 
 TEST_CASE("uart port configuration shall return port from valid data")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
 
     REQUIRE(uart_port_cfg.get_port_id() == port_id::uart0);
 }
 
 TEST_CASE("uart port configuration shall return tx ready configuration from valid data")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_tx_ready_cfg = tx_ready_configuration
     {
         .enabled = true,
@@ -37,7 +37,7 @@ TEST_CASE("uart port configuration shall return tx ready configuration from vali
 
 TEST_CASE("uart port configuration shall return uart configuration from valid data")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_uart_cfg = uart_configuration
     {
         .data_length = static_cast<std::uint32_t>(data_length::bit7),
@@ -52,7 +52,7 @@ TEST_CASE("uart port configuration shall return uart configuration from valid da
 
 TEST_CASE("uart port configuration shall return baud_rate configuration from valid data")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_baud_rate = static_cast<std::uint32_t>(115200);
     auto baud_rate = uart_port_cfg.get_baud_rate();
 
@@ -61,7 +61,7 @@ TEST_CASE("uart port configuration shall return baud_rate configuration from val
 
 TEST_CASE("uart port configuration shall return protocol_in_mask configuration from valid data")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_protocol_mask_in = protocol_in_mask
     {
         .ubx_in = true,
@@ -77,7 +77,7 @@ TEST_CASE("uart port configuration shall return protocol_in_mask configuration f
 
 TEST_CASE("uart port configuration shall return protocol_out_mask configuration from valid data")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_protocol_mask_out = protocol_out_mask
     {
         .ubx_out = true,
@@ -92,7 +92,7 @@ TEST_CASE("uart port configuration shall return protocol_out_mask configuration 
 
 TEST_CASE("uart port configuration shall return port_flags from valid data")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_port_flags = port_flags
     {
         .extended_tx_timeout = true,
@@ -105,7 +105,7 @@ TEST_CASE("uart port configuration shall return port_flags from valid data")
 
 TEST_CASE("uart port configuration shall be invalid when payload is corrupted")
 {
-    auto uart_port_cfg = uart_port_confugiration_message{invalid_uart_port_config.begin(), invalid_uart_port_config.end()};
+    auto uart_port_cfg = port_configuration_message{invalid_uart_port_config.begin(), invalid_uart_port_config.end()};
 
     REQUIRE(uart_port_cfg.is_valid() == false);
 }

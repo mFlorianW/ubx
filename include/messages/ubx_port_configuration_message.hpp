@@ -15,13 +15,13 @@
 namespace ubx
 {
 
-class uart_port_confugiration_message final : public message_base<uart_port_confugiration_message>
+class port_configuration_message final : public message_base<port_configuration_message>
 {
 public:
-    uart_port_confugiration_message() = default;
+    port_configuration_message() = default;
 
     template<typename read_iterator>
-    uart_port_confugiration_message(const read_iterator &begin, const read_iterator &end);
+    port_configuration_message(const read_iterator &begin, const read_iterator &end);
 
     port_id get_port_id() const noexcept;
 
@@ -48,7 +48,7 @@ private:
 };
 
 template<typename read_iterator>
-uart_port_confugiration_message::uart_port_confugiration_message(const read_iterator &begin, const read_iterator &end)
+port_configuration_message::port_configuration_message(const read_iterator &begin, const read_iterator &end)
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
@@ -81,37 +81,37 @@ uart_port_confugiration_message::uart_port_confugiration_message(const read_iter
     m_status = true;
 }
 
-inline port_id uart_port_confugiration_message::get_port_id() const noexcept
+inline port_id port_configuration_message::get_port_id() const noexcept
 {
     return m_port_id;
 }
 
-inline const tx_ready_configuration &uart_port_confugiration_message::get_tx_ready_configuration() const noexcept
+inline const tx_ready_configuration &port_configuration_message::get_tx_ready_configuration() const noexcept
 {
     return m_tx_ready_cfg;
 }
 
-inline const uart_configuration &uart_port_confugiration_message::get_uart_configuration() const noexcept
+inline const uart_configuration &port_configuration_message::get_uart_configuration() const noexcept
 {
     return m_uart_cfg;
 }
 
-inline const protocol_in_mask &uart_port_confugiration_message::get_protocol_in_mask() const noexcept
+inline const protocol_in_mask &port_configuration_message::get_protocol_in_mask() const noexcept
 {
     return m_protocol_in_mask;
 }
 
-inline uint32_t uart_port_confugiration_message::get_baud_rate() const noexcept
+inline uint32_t port_configuration_message::get_baud_rate() const noexcept
 {
     return m_baud_rate;
 }
 
-inline const protocol_out_mask &uart_port_confugiration_message::get_protocol_out_mask() const noexcept
+inline const protocol_out_mask &port_configuration_message::get_protocol_out_mask() const noexcept
 {
     return m_protocol_out_mask;
 }
 
-inline const port_flags &uart_port_confugiration_message::get_port_flags() const noexcept
+inline const port_flags &port_configuration_message::get_port_flags() const noexcept
 {
     return m_port_flags;
 }
