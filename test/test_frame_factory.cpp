@@ -97,3 +97,15 @@ TEST_CASE("Frame factory shall put checksum in frame buffer")
     REQUIRE(frame_buffer[7] == expected_frame_buffer[7]);
     REQUIRE(frame_buffer[8] == expected_frame_buffer[8]);
 }
+
+TEST_CASE("Frame factory shall return true when frame correctly build")
+{
+    auto frame_buffer = std::array<std::uint8_t, 9>{0};
+
+    REQUIRE(frame_factory::create_frame(0x20,
+                                        0x10,
+                                        payload_begin,
+                                        payload_end,
+                                        frame_buffer.begin(),
+                                        frame_buffer.end()) == true);
+}

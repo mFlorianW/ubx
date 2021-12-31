@@ -19,8 +19,10 @@ bool create_frame(std::int8_t class_id,
                   write_iterator frame_end)
 {
     //put preamble
-    frame_begin[0] = 0x5b;
-    frame_begin[1] = 0x62;
+    constexpr auto char_sync1 = 0x5b;
+    constexpr auto char_sync2 = 0x62;
+    frame_begin[0] = char_sync1;
+    frame_begin[1] = char_sync2;
     frame_begin[2] = class_id;
     frame_begin[3] = message_id;
 
@@ -42,6 +44,7 @@ bool create_frame(std::int8_t class_id,
         ++payload_index;
     }
 
+    //put checksum
     constexpr size_t constant_checksum_length = 4;
     size_t checksum_length = constant_checksum_length + payload_length_raw;
     const auto checksum_result = utilities::calculate_checksum(frame_begin + 2, checksum_length);
@@ -49,7 +52,7 @@ bool create_frame(std::int8_t class_id,
     frame_begin[6 + payload_length_raw] = checksum_result.ck_a;
     frame_begin[6 + payload_length_raw + 1] = checksum_result.ck_b;
 
-    return false;
+    return true;
 }
 
 } //namespace ubx
