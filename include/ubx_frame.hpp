@@ -132,24 +132,15 @@ public:
 private:
     frame_read_result calculate_checksum(const read_iterator &raw_frame, size_t len)
     {
-        std::uint16_t cka = 0;
-        std::uint16_t ckb = 0;
         std::uint8_t received_cka = raw_frame[6+m_payload_length];
         std::uint8_t received_ckb = raw_frame[7+m_payload_length];
 
         // class, message id and payload
         constexpr size_t constant_frame_data = 4;
         auto length_of_checksum_data = m_payload_length + constant_frame_data;
-        for(size_t i = 0; i < length_of_checksum_data;  ++i)
-        {
-            cka = cka + raw_frame[2 + i];
-            ckb = ckb + cka;
-        }
+        auto checksum = utilities::calculate_checksum(raw_frame + 2, length_of_checksum_data);
 
-        cka = cka & 0xFF;
-        ckb = ckb & 0xFF;
-
-        if(cka != received_cka || ckb != received_ckb)
+        if(checksum.ck_a != received_cka || checksum.ck_b != received_ckb)
         {
             return frame_read_result::checksum_error;
         }
@@ -167,6 +158,5 @@ private:
 };
 
 } //Ubx
-
 
 #endif  //!__FRAME__H__
