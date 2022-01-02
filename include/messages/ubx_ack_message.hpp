@@ -7,6 +7,10 @@
 
 namespace ubx
 {
+
+constexpr std::uint8_t ack_class_id{0x05};
+constexpr std::uint8_t ack_message_id{0x01};
+
 class ack_message final : public message_base<ack_message>
 {
 public:

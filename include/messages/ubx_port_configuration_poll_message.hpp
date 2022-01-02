@@ -8,6 +8,9 @@
 namespace ubx
 {
 
+constexpr std::uint8_t port_configuration_poll_class_id{0x06};
+constexpr std::uint8_t port_configuration_poll_message_id{0x00};
+
 class port_configuration_poll_message
 {
 public:

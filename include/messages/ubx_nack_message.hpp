@@ -7,6 +7,9 @@
 namespace ubx
 {
 
+constexpr std::uint8_t nack_class_id{0x05};
+constexpr std::uint8_t nack_message_id{0x00};
+
 class nack_message : public message_base<nack_message>
 {
 public:
