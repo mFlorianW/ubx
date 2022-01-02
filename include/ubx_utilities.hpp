@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <optional>
+#include <cstdlib>
 
 namespace ubx::utilities
 {
@@ -26,7 +27,6 @@ checksum_result calculate_checksum(const read_iterator &checksum_begin, size_t c
 {
     std::uint16_t ck_a = 0;
     std::uint16_t ck_b = 0;
-    auto result = checksum_result{};
 
     for(size_t i = 0; i < checksum_length;  ++i)
     {
