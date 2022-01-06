@@ -17,6 +17,7 @@ namespace ubx
 
 constexpr std::uint8_t port_configuration_class_id{0x06};
 constexpr std::uint8_t port_configuration_message_id{0x00};
+constexpr std::uint8_t port_configuration_message_length{0x14};
 
 class port_configuration_message final : public message_base<port_configuration_message>
 {
@@ -40,6 +41,12 @@ public:
      * @return Gives the port id.
      */
     port_id get_port_id() const noexcept;
+
+    /**
+     * Set the port in the configuration.
+     * @param id The id of the port.
+     */
+    void set_port_id(port_id id);
 
     /**
      * @return Gives the tx_ready_configuration.
@@ -70,6 +77,16 @@ public:
      * @return Gives the port_flags.
      */
     const port_flags& get_port_flags() const noexcept;
+
+    /**
+     * Serialize the message into the given buffer with begin and end. The buffer must have the
+     * at least the size of the port_configuration_message.
+     * @param begin The begin of the buffer.
+     * @param end The end of the buffer.
+     * @return true serialization succesful otherwise false.
+     */
+    template<typename write_iterator>
+    bool serialize(write_iterator begin, write_iterator end);
 
 private:
     port_id m_port_id{port_id::uart0};
@@ -120,6 +137,11 @@ inline port_id port_configuration_message::get_port_id() const noexcept
     return m_port_id;
 }
 
+inline void port_configuration_message::set_port_id(port_id id)
+{
+    m_port_id = id;
+}
+
 inline const tx_ready_configuration &port_configuration_message::get_tx_ready_configuration() const noexcept
 {
     return m_tx_ready_cfg;
@@ -148,6 +170,16 @@ inline const protocol_out_mask &port_configuration_message::get_protocol_out_mas
 inline const port_flags &port_configuration_message::get_port_flags() const noexcept
 {
     return m_port_flags;
+}
+
+template<typename write_iterator>
+bool port_configuration_message::serialize(write_iterator begin, write_iterator end)
+{
+    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
+                  "The iterator must be of type std::unit8_t");
+
+    begin[0] = static_cast<std::uint8_t>(m_port_id);
+    return false;
 }
 
 } // namespace ubx

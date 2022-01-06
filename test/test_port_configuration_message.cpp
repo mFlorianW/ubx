@@ -12,7 +12,7 @@ TEST_CASE("Default constructed port configuration shall be invalid")
     REQUIRE(uart_port_cfg.is_valid() == false);
 }
 
-TEST_CASE("uart port configuration shall return port from valid data")
+TEST_CASE("port configuration shall return port from valid data")
 {
     auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
 
@@ -35,7 +35,7 @@ TEST_CASE("uart port configuration shall return tx ready configuration from vali
     REQUIRE(tx_ready_cfg == expected_tx_ready_cfg);
 }
 
-TEST_CASE("uart port configuration shall return uart configuration from valid data")
+TEST_CASE("port configuration shall return uart configuration from valid data")
 {
     auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_uart_cfg = uart_configuration
@@ -50,7 +50,7 @@ TEST_CASE("uart port configuration shall return uart configuration from valid da
     REQUIRE(uart_cfg == expected_uart_cfg);
 }
 
-TEST_CASE("uart port configuration shall return baud_rate configuration from valid data")
+TEST_CASE("port configuration shall return baud_rate configuration from valid data")
 {
     auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_baud_rate = static_cast<std::uint32_t>(115200);
@@ -59,7 +59,7 @@ TEST_CASE("uart port configuration shall return baud_rate configuration from val
     REQUIRE(baud_rate == expected_baud_rate);
 }
 
-TEST_CASE("uart port configuration shall return protocol_in_mask configuration from valid data")
+TEST_CASE("port configuration shall return protocol_in_mask configuration from valid data")
 {
     auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_protocol_mask_in = protocol_in_mask
@@ -75,7 +75,7 @@ TEST_CASE("uart port configuration shall return protocol_in_mask configuration f
     REQUIRE(protocol_mask_in == expected_protocol_mask_in);
 }
 
-TEST_CASE("uart port configuration shall return protocol_out_mask configuration from valid data")
+TEST_CASE("port configuration shall return protocol_out_mask configuration from valid data")
 {
     auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_protocol_mask_out = protocol_out_mask
@@ -90,7 +90,7 @@ TEST_CASE("uart port configuration shall return protocol_out_mask configuration 
     REQUIRE(protocol_out_mask == expected_protocol_mask_out);
 }
 
-TEST_CASE("uart port configuration shall return port_flags from valid data")
+TEST_CASE("port configuration shall return port_flags from valid data")
 {
     auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_port_flags = port_flags
@@ -103,9 +103,20 @@ TEST_CASE("uart port configuration shall return port_flags from valid data")
     REQUIRE(port_flags == expected_port_flags);
 }
 
-TEST_CASE("uart port configuration shall be invalid when payload is corrupted")
+TEST_CASE("port configuration shall be invalid when payload is corrupted")
 {
     auto uart_port_cfg = port_configuration_message{invalid_uart_port_config.begin(), invalid_uart_port_config.end()};
 
     REQUIRE(uart_port_cfg.is_valid() == false);
+}
+
+TEST_CASE("port configuration shall serialize the set port id.")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+
+    port_cfg.set_port_id(port_id::uart1);
+    port_cfg.serialize(message_buffer.begin(), message_buffer.end());
+
+    REQUIRE(message_buffer[0] == valid_uart_port_config[0]);
 }
