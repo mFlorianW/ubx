@@ -21,23 +21,54 @@ constexpr std::uint8_t port_configuration_message_id{0x00};
 class port_configuration_message final : public message_base<port_configuration_message>
 {
 public:
+    /**
+     * Default consturcted port_configuration_message
+     */
     port_configuration_message() = default;
 
+    /**
+     * Constructs the port_configuration_message from the given message buffer. After construction
+     * the message can be validated is_valid() if the deserialization was successful.
+     *
+     * @param begin Start of the message buffer.
+     * @param end End of the message buffer.
+     */
     template<typename read_iterator>
     port_configuration_message(const read_iterator &begin, const read_iterator &end);
 
+    /**
+     * @return Gives the port id.
+     */
     port_id get_port_id() const noexcept;
 
+    /**
+     * @return Gives the tx_ready_configuration.
+     */
     const tx_ready_configuration& get_tx_ready_configuration() const noexcept;
 
+    /**
+     * @return Gives the tx_uart_configuration.
+     */
     const uart_configuration& get_uart_configuration() const noexcept;
 
+    /**
+     * @return Gives the protocol_in_mask.
+     */
     const protocol_in_mask& get_protocol_in_mask() const noexcept;
 
+    /**
+     * @return Gives the baud_rate.
+     */
     std::uint32_t get_baud_rate() const noexcept;
 
+    /**
+     * @return Gives the protocol_out_mask.
+     */
     const protocol_out_mask& get_protocol_out_mask() const noexcept;
 
+    /**
+     * @return Gives the port_flags.
+     */
     const port_flags& get_port_flags() const noexcept;
 
 private:

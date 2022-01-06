@@ -25,7 +25,15 @@ public:
 class message
 {
 public:
+    /**
+     * Default base destructor
+     */
     virtual ~message() = default;
+
+    /**
+     * Dispatch the message to the given handler.
+     * @param handler The that shall handle the message.
+     */
     virtual void dispatch(message_handler_base &handler) = 0;
 
     /**
@@ -40,6 +48,11 @@ public:
     }
 
 protected:
+    /**
+     * Dispatch the message to the handler.
+     * @param handler The handler that shall receive the message.
+     * @param message The message that shall be dispatched.
+     */
     template<typename message_type>
     void dispatch_impl(message_handler_base &handler, message_type &message)
     {
