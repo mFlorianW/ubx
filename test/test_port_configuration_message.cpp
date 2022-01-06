@@ -115,7 +115,7 @@ TEST_CASE("port configuration shall serialize the set port id.")
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
     auto port_cfg = port_configuration_message{};
 
-    port_cfg.set_port_id(port_id::uart1);
+    port_cfg.set_port_id(port_id::uart0);
     port_cfg.serialize(message_buffer.begin(), message_buffer.end());
 
     REQUIRE(message_buffer[0] == valid_uart_port_config[0]);
