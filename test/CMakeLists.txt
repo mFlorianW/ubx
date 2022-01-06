@@ -1,9 +1,5 @@
-find_package(Catch2 CONFIG REQUIRED)
-
-include(CTest)
-include(Catch)
 include(FetchContent)
-
+include(CTest)
 if(ENABLE_CATCH2_FETCH)
     FetchContent_Declare(
         Catch2
@@ -11,7 +7,13 @@ if(ENABLE_CATCH2_FETCH)
         GIT_TAG        v2.13.7
     )
     FetchContent_MakeAvailable(Catch2)
+
+    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
+else(ENABLE_CATCH2_FETCH)
+    find_package(Catch2 CONFIG REQUIRED)
 endif(ENABLE_CATCH2_FETCH)
+
+include(Catch)
 
 add_executable(test_frame test_frame.cpp)
 target_link_libraries(test_frame PRIVATE Catch2::Catch2 Ubx::Object)
