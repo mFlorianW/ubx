@@ -2,6 +2,16 @@ find_package(Catch2 CONFIG REQUIRED)
 
 include(CTest)
 include(Catch)
+include(FetchContent)
+
+if(ENABLE_CATCH2_FETCH)
+    FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG        v2.13.7
+    )
+    FetchContent_MakeAvailable(Catch2)
+endif(ENABLE_CATCH2_FETCH)
 
 add_executable(test_frame test_frame.cpp)
 target_link_libraries(test_frame PRIVATE Catch2::Catch2 Ubx::Object)

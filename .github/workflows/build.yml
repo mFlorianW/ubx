@@ -13,6 +13,8 @@ jobs:
     - name: checkout
       uses: actions/checkout@v2
     - name: configure
-      run: cmake -DENABLE_TEST=OFF .
+      run: cmake -DENABLE_TEST=ON -DENABLE_CATCH2_FETCH=ON .
     - name: make
       run: make -j8
+    - name: test
+      run: ctest -V
