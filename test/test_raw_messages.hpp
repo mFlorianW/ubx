@@ -21,8 +21,7 @@ constexpr std::array<std::uint8_t, 20> valid_uart_port_config =
 {
     0x01, // port id
     0x00, // resevered
-    0x2b,
-    0x02, // TX ready bit field
+    0x2b, 0x02, // TX ready bit field
     0x80, 0x08, 0x00, 0x00, // UART mode in little endian
     0x00, 0xc2, 0x01, 0x00, // UART baudrate in little endian
     0x03, 0x00, //in protocol mask

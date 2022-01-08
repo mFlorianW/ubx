@@ -120,3 +120,118 @@ TEST_CASE("port configuration shall serialize the set port id.")
 
     REQUIRE(message_buffer[0] == valid_uart_port_config[0]);
 }
+
+TEST_CASE("port configuration shall serialize the set tx ready configuration.")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+    auto tx_ready_cfg = tx_ready_configuration
+    {
+        .enabled = true,
+        .polarity = 1,
+        .pin = 10,
+        .threshold = 0x04
+    };
+
+    port_cfg.set_tx_ready_configuration(tx_ready_cfg);
+    port_cfg.serialize(message_buffer.begin(), message_buffer.end());
+
+    REQUIRE(message_buffer[2] == valid_uart_port_config[2]);
+    REQUIRE(message_buffer[3] == valid_uart_port_config[3]);
+}
+
+TEST_CASE("port configuration shall serialize the set uart configuration.")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+    constexpr auto uart_cfg = uart_configuration
+    {
+        .data_length = static_cast<std::uint32_t>(data_length::bit7),
+        .parity = static_cast<std::uint32_t>(parity::no_parity),
+        .stop_bits = static_cast<std::uint32_t>(stop_bits::one_stop_bit)
+    };
+
+    port_cfg.set_uart_configuration(uart_cfg);
+    port_cfg.serialize(message_buffer.begin(), message_buffer.end());
+
+    REQUIRE(message_buffer[4] == valid_uart_port_config[4]);
+    REQUIRE(message_buffer[5] == valid_uart_port_config[5]);
+    REQUIRE(message_buffer[6] == valid_uart_port_config[6]);
+    REQUIRE(message_buffer[7] == valid_uart_port_config[7]);
+}
+
+TEST_CASE("port configuration shall serialize the set baud rate configuration.")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+    auto baud_rate = static_cast<std::uint32_t>(115200);
+
+    port_cfg.set_baud_rate(baud_rate);
+    port_cfg.serialize(message_buffer.begin(), message_buffer.end());
+
+    REQUIRE(message_buffer[8] == valid_uart_port_config[8]);
+    REQUIRE(message_buffer[9] == valid_uart_port_config[9]);
+    REQUIRE(message_buffer[10] == valid_uart_port_config[10]);
+    REQUIRE(message_buffer[11] == valid_uart_port_config[11]);
+}
+
+TEST_CASE("port configuration shall serialize the set protocol in mask configuration.")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+    auto proto_in_mask = protocol_in_mask
+    {
+        .ubx_in = true,
+        .nema_in = true,
+        .rtcm_in = false,
+        .rtcm3_in = false,
+    };
+
+    port_cfg.set_protocol_in_mask(proto_in_mask);
+    port_cfg.serialize(message_buffer.begin(), message_buffer.end());
+
+    REQUIRE(message_buffer[12] == valid_uart_port_config[12]);
+    REQUIRE(message_buffer[13] == valid_uart_port_config[13]);
+}
+
+TEST_CASE("port configuration shall serialize the set protocol out mask configuration.")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+    auto proto_out_mask = protocol_out_mask
+    {
+        .ubx_out = true,
+        .nmea_out = true,
+        .rtcm3_out = false,
+    };
+
+    port_cfg.set_protocol_out_mask(proto_out_mask);
+    port_cfg.serialize(message_buffer.begin(), message_buffer.end());
+
+    REQUIRE(message_buffer[14] == valid_uart_port_config[14]);
+    REQUIRE(message_buffer[15] == valid_uart_port_config[15]);
+}
+
+TEST_CASE("port configuration shall serialize the set port flags configuration.")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+    auto prt_flags = port_flags
+    {
+        .extended_tx_timeout = true,
+    };
+
+    port_cfg.set_port_flags(prt_flags);
+    port_cfg.serialize(message_buffer.begin(), message_buffer.end());
+
+    REQUIRE(message_buffer[16] == valid_uart_port_config[16]);
+    REQUIRE(message_buffer[17] == valid_uart_port_config[17]);
+}
+
+TEST_CASE("port configuration shall return when serialization is successful")
+{
+    auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
+    auto port_cfg = port_configuration_message{};
+
+    REQUIRE(port_cfg.serialize(message_buffer.begin(), message_buffer.end()) == true);
+}
