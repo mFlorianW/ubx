@@ -67,14 +67,47 @@ TEST_CASE("The message configuration shall serialize the set rate.")
 
 TEST_CASE("The message configuration shall return true when successful serialized")
 {
-    auto msg_cfg = message_configuration{};
     auto msg_buffer = std::array<std::uint8_t, message_configuration_message_length>{0};
+    auto msg_cfg = message_configuration{};
     REQUIRE(msg_cfg.serialize(msg_buffer.begin(), msg_buffer.end()) == true);
 }
 
 TEST_CASE("The message configuration serialize shall return false when buffer is to small")
 {
-    auto msg_cfg = message_configuration{};
     auto msg_buffer = std::array<std::uint8_t, 2>{0};
+    auto msg_cfg = message_configuration{};
     REQUIRE(msg_cfg.serialize(msg_buffer.begin(), msg_buffer.end()) == false);
 }
+
+TEST_CASE("The message configuration shall be able to serialize the class id into a poll request.")
+{
+    auto msg_buffer = std::array<std::uint8_t, message_configuration_poll_message_length>{0};
+    auto msg_cfg = message_configuration{};
+    msg_cfg.set_class_id(class_id::sec);
+    msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end());
+    REQUIRE(msg_buffer[0] == valid_message_configuration_poll[0]);
+}
+
+TEST_CASE("The message configuration shall be able to serialize the message id into a poll request.")
+{
+    auto msg_buffer = std::array<std::uint8_t, message_configuration_poll_message_length>{0};
+    auto msg_cfg = message_configuration{};
+    msg_cfg.set_message_id(0x20);
+    msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end());
+    REQUIRE(msg_buffer[1] == valid_message_configuration_poll[1]);
+}
+
+TEST_CASE("The message configuration poll serialization shall return on success.")
+{
+    auto msg_buffer = std::array<std::uint8_t, message_configuration_poll_message_length>{0};
+    auto msg_cfg = message_configuration{};
+    REQUIRE(msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end()) == true);
+}
+
+TEST_CASE("The message configuration poll serialization shall return false when the buffer is to small.")
+{
+    auto msg_buffer = std::array<std::uint8_t, 1>{0};
+    auto msg_cfg = message_configuration{};
+    REQUIRE(msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end()) == false);
+}
+

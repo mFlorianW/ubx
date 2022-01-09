@@ -57,6 +57,12 @@ constexpr std::array<std::uint8_t, 2> invalid_message_configuration =
     0x20, //message id
 };
 
+constexpr std::array<std::uint8_t, 3> valid_message_configuration_poll =
+{
+    0x27, //class id
+    0x20, //message id
+};
+
 } // namespace ubx;
 
 #endif // TEST_RAW_MESSAGES_HPP
