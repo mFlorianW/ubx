@@ -5,6 +5,10 @@
 
 namespace ubx
 {
+
+/**
+ * Validity bit field of the nav-pvt message.
+ */
 struct validity_flags
 {
     std::uint8_t valid_date:1;
@@ -48,7 +52,7 @@ struct validity_flags
      * @return true both are the not equal, otherwise false.
      */
     friend bool operator!=(const validity_flags &lhs, const validity_flags &rhs);
-};
+} __attribute__((packed));
 
 inline bool validity_flags::is_date_valid() const noexcept
 {
@@ -83,6 +87,6 @@ bool operator!=(const validity_flags &lhs, const validity_flags &rhs)
     return !(lhs == rhs);
 }
 
-}
+} //namespace ubx
 
 #endif // UBX_VALIDITY_FLAGS_HPP
