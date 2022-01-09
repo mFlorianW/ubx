@@ -19,6 +19,7 @@ namespace ubx
 constexpr std::uint8_t port_configuration_class_id{0x06};
 constexpr std::uint8_t port_configuration_message_id{0x00};
 constexpr std::uint8_t port_configuration_message_length{0x14};
+constexpr std::uint8_t port_configuration_poll_message_length{0x01};
 
 class port_configuration_message final : public message_base<port_configuration_message>
 {
@@ -124,6 +125,9 @@ public:
      */
     template<typename write_iterator>
     bool serialize(write_iterator begin, write_iterator end);
+
+    template<typename write_iterator>
+    bool serialize_poll_message(write_iterator begin, write_iterator end);
 
 private:
     port_id m_port_id{port_id::uart0};
@@ -291,6 +295,21 @@ bool port_configuration_message::serialize(write_iterator begin, write_iterator 
     begin[16] = raw_port_flags[0];
     begin[17] = raw_port_flags[1];
 
+    return true;
+}
+
+template<typename write_iterator>
+inline bool port_configuration_message::serialize_poll_message(write_iterator begin, write_iterator end)
+{
+    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
+                  "The iterator must be of type std::unit8_t");
+
+    if(std::distance(begin, end) < port_configuration_poll_message_length)
+    {
+        return false;
+    }
+
+    begin[0] = static_cast<std::uint8_t>(m_port_id);
     return true;
 }
 
