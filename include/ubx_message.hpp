@@ -37,10 +37,11 @@ public:
     virtual void dispatch(message_handler_base &handler) = 0;
 
     /**
-     * Gives the status about the message if it is in a valid state. The status is set by a message after deserializing
-     * a message from the raw data.
+     * Gives the status about the message if it is in a valid state.
+     * The status is set by a message after deserializing a message from the raw data.
+     * If the message is setup manually the is valid status will be always false.
      *
-     * @return The deserializing the message was correctly, otherwise false.
+     * @return True the message was deserialized correctly, otherwise false.
      */
     bool is_valid() const noexcept
     {

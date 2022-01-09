@@ -44,6 +44,19 @@ constexpr std::array<std::uint8_t, 19> invalid_uart_port_config =
     0x00, 0x00 // reserved two bytes
 };
 
+constexpr std::array<std::uint8_t, 3> valid_message_configuration =
+{
+    0x27, //class id
+    0x20, //message id
+    0x05, //rate
+};
+
+constexpr std::array<std::uint8_t, 2> invalid_message_configuration =
+{
+    0x27, //class id
+    0x20, //message id
+};
+
 } // namespace ubx;
 
 #endif // TEST_RAW_MESSAGES_HPP
