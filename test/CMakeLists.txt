@@ -54,6 +54,9 @@ target_link_libraries(test_message_configuration_message PRIVATE Catch2::Catch2 
 add_executable(test_validity_flags test_validity_flags.cpp)
 target_link_libraries(test_validity_flags PRIVATE Catch2::Catch2 Ubx::Object)
 
+add_executable(test_fix_status_flags test_fix_status_flags.cpp)
+target_link_libraries(test_fix_status_flags PRIVATE Catch2::Catch2 Ubx::Object)
+
 catch_discover_tests(test_frame)
 catch_discover_tests(test_message)
 catch_discover_tests(test_frame_processor)
@@ -67,3 +70,4 @@ catch_discover_tests(test_port_flags)
 catch_discover_tests(test_frame_factory)
 catch_discover_tests(test_message_configuration_message)
 catch_discover_tests(test_validity_flags)
+catch_discover_tests(test_fix_status_flags)

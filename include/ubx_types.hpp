@@ -31,6 +31,23 @@ enum class port_id : std::uint8_t
     uart1 = 0x02
 };
 
+enum class psm_state : std::uint8_t
+{
+    not_active = 0,
+    enabled = 1,
+    acquisition = 2,
+    tracking = 3,
+    power_optimized_tracking = 4,
+    inactive = 5,
+};
+
+enum class carrier_phase_range_solution_status
+{
+    no_solution = 0,
+    with_floating_ambiguities = 1,
+    with_fixed_ambiguities = 2,
+};
+
 } //ubx
 
 
