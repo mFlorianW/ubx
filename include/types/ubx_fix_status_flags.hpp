@@ -7,6 +7,23 @@
 namespace ubx
 {
 
+enum class psm_state : std::uint8_t
+{
+    not_active = 0,
+    enabled = 1,
+    acquisition = 2,
+    tracking = 3,
+    power_optimized_tracking = 4,
+    inactive = 5,
+};
+
+enum class carrier_phase_range_solution_status
+{
+    no_solution = 0,
+    with_floating_ambiguities = 1,
+    with_fixed_ambiguities = 2,
+};
+
 struct fix_status_flags
 {
     std::uint8_t gnss_fix_ok:1;
@@ -58,7 +75,7 @@ struct fix_status_flags
      * @return true both are the not equal, otherwise false.
      */
     friend bool operator!=(const fix_status_flags &lhs, const fix_status_flags &rhs);
-};
+} __attribute__((packed));
 
 inline bool fix_status_flags::is_gnss_fix_ok() const noexcept
 {
