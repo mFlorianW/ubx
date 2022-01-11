@@ -8,8 +8,9 @@
 namespace ubx
 {
 
-constexpr std::uint8_t ack_class_id{0x05};
-constexpr std::uint8_t ack_message_id{0x01};
+constexpr std::uint8_t ack_ack_class_id{0x05};
+constexpr std::uint8_t ack_ack_message_id{0x01};
+constexpr std::uint8_t ack_ack_length{0x02};
 
 class ack_ack_message final : public message_base<ack_ack_message>
 {

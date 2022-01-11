@@ -8,10 +8,10 @@
 namespace ubx
 {
 
-constexpr std::uint8_t message_configuration_class_id{0x06};
-constexpr std::uint8_t message_configuration_message_id{0x01};
-constexpr std::uint8_t message_configuration_message_length{3};
-constexpr std::uint8_t message_configuration_poll_message_length{2};
+constexpr std::uint8_t cfg_msg_message_class_id{0x06};
+constexpr std::uint8_t cfg_msg_message_message_id{0x01};
+constexpr std::uint8_t cfg_msg_message_length{3};
+constexpr std::uint8_t cfg_msg_poll_message_length{2};
 
 class cfg_msg_message final : public message_base<cfg_msg_message>
 {
@@ -91,7 +91,7 @@ cfg_msg_message::cfg_msg_message(const read_iterator &begin, const read_iterator
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < message_configuration_message_length)
+    if(std::distance(begin, end) < cfg_msg_message_length)
     {
         return;
     }
@@ -139,7 +139,7 @@ bool cfg_msg_message::serialize(write_iterator begin, write_iterator end)
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < message_configuration_message_length)
+    if(std::distance(begin, end) < cfg_msg_message_length)
     {
         return false;
     }
@@ -157,7 +157,7 @@ bool cfg_msg_message::serialize_poll_message(write_iterator begin, write_iterato
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < message_configuration_poll_message_length)
+    if(std::distance(begin, end) < cfg_msg_poll_message_length)
     {
         return false;
     }

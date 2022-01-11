@@ -63,6 +63,11 @@ constexpr std::array<std::uint8_t, 3> valid_message_configuration_poll =
     0x20, //message id
 };
 
+constexpr std::array<std::uint8_t, 92> valid_nav_pvt_message =
+{
+    0x23, 0x025, 0x33, 0x28, // iTOW
+};
+
 } // namespace ubx;
 
 #endif // TEST_RAW_MESSAGES_HPP

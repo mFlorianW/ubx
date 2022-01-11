@@ -16,10 +16,10 @@
 namespace ubx
 {
 
-constexpr std::uint8_t port_configuration_class_id{0x06};
-constexpr std::uint8_t port_configuration_message_id{0x00};
-constexpr std::uint8_t port_configuration_message_length{0x14};
-constexpr std::uint8_t port_configuration_poll_message_length{0x01};
+constexpr std::uint8_t cfg_prt_message_class_id{0x06};
+constexpr std::uint8_t cfg_port_message_message_id{0x00};
+constexpr std::uint8_t cfg_port_message_length{0x14};
+constexpr std::uint8_t cfg_port_poll_message_length{0x01};
 
 class cfg_prt_message final : public message_base<cfg_prt_message>
 {
@@ -304,7 +304,7 @@ inline bool cfg_prt_message::serialize_poll_message(write_iterator begin, write_
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < port_configuration_poll_message_length)
+    if(std::distance(begin, end) < cfg_port_poll_message_length)
     {
         return false;
     }
