@@ -1,7 +1,7 @@
 #ifndef UBX_UART_PORT_CONFIGURATION_MESSAGE_HPP
 #define UBX_UART_PORT_CONFIGURATION_MESSAGE_HPP
 
-#include "ubx_ack_message.hpp"
+#include "ubx_ack_ack_message.hpp"
 #include "ubx_types.hpp"
 #include "ubx_tx_ready_configuration.hpp"
 #include "ubx_utilities.hpp"
