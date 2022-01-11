@@ -13,13 +13,13 @@ constexpr std::uint8_t message_configuration_message_id{0x01};
 constexpr std::uint8_t message_configuration_message_length{3};
 constexpr std::uint8_t message_configuration_poll_message_length{2};
 
-class message_configuration final : public message_base<message_configuration>
+class cfg_msg_message final : public message_base<cfg_msg_message>
 {
 public:
     /**
      * Creates an empty message configuration object.
      */
-    message_configuration() = default;
+    cfg_msg_message() = default;
 
     /**
      * Constructs a message configuration object from the given payload started at begin and ends at end.
@@ -27,7 +27,7 @@ public:
      * @param end payload end
      */
     template<typename read_iterator>
-    message_configuration(const read_iterator &begin, const read_iterator &end);
+    cfg_msg_message(const read_iterator &begin, const read_iterator &end);
 
     /**
      * @return Gives the class id.
@@ -86,7 +86,7 @@ private:
 };
 
 template<typename read_iterator>
-message_configuration::message_configuration(const read_iterator &begin, const read_iterator &end)
+cfg_msg_message::cfg_msg_message(const read_iterator &begin, const read_iterator &end)
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
@@ -103,38 +103,38 @@ message_configuration::message_configuration(const read_iterator &begin, const r
     m_status = true;
 }
 
-inline class_id message_configuration::get_class_id() const noexcept
+inline class_id cfg_msg_message::get_class_id() const noexcept
 {
     return m_class_id;
 }
 
-inline void message_configuration::set_class_id(class_id id)
+inline void cfg_msg_message::set_class_id(class_id id)
 {
     m_class_id = id;
 }
 
-inline uint8_t message_configuration::get_message_id() const noexcept
+inline uint8_t cfg_msg_message::get_message_id() const noexcept
 {
     return m_message_id;
 }
 
-inline void message_configuration::set_message_id(uint8_t message_id)
+inline void cfg_msg_message::set_message_id(uint8_t message_id)
 {
     m_message_id = message_id;
 }
 
-inline uint8_t message_configuration::get_rate() const noexcept
+inline uint8_t cfg_msg_message::get_rate() const noexcept
 {
     return m_rate;
 }
 
-inline void message_configuration::set_rate(uint8_t rate)
+inline void cfg_msg_message::set_rate(uint8_t rate)
 {
     m_rate = rate;
 }
 
 template<typename write_iterator>
-bool message_configuration::serialize(write_iterator begin, write_iterator end)
+bool cfg_msg_message::serialize(write_iterator begin, write_iterator end)
 {
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
@@ -152,7 +152,7 @@ bool message_configuration::serialize(write_iterator begin, write_iterator end)
 }
 
 template<typename write_iterator>
-bool message_configuration::serialize_poll_message(write_iterator begin, write_iterator end)
+bool cfg_msg_message::serialize_poll_message(write_iterator begin, write_iterator end)
 {
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
