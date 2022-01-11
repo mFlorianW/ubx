@@ -24,6 +24,9 @@ enum class carrier_phase_range_solution_status
     with_fixed_ambiguities = 2,
 };
 
+/**
+ * fix status flags of the nav-pvt message.
+ */
 struct fix_status_flags
 {
     std::uint8_t gnss_fix_ok:1;
@@ -71,7 +74,7 @@ struct fix_status_flags
     /**
      * Unequal operator resvered values are ignored.
      * @param lhs left hand side fix status flags.
-     * @param rhs right hande fix status flags.
+     * @param rhs right hande side fix status flags.
      * @return true both are the not equal, otherwise false.
      */
     friend bool operator!=(const fix_status_flags &lhs, const fix_status_flags &rhs);

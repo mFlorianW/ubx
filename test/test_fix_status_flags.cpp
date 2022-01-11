@@ -4,7 +4,7 @@
 
 using namespace ubx;
 
-TEST_CASE("fix status flags shall return true gnss fix flag flag is set otherwise false")
+TEST_CASE("fix status flags shall return true when gnss fix flag is set otherwise false")
 {
     auto fix_st_flags = fix_status_flags
     {
@@ -16,7 +16,7 @@ TEST_CASE("fix status flags shall return true gnss fix flag flag is set otherwis
     REQUIRE(fix_st_flags.is_gnss_fix_ok() == false);
 }
 
-TEST_CASE("fix status flags shall return true differential corrections flag is set otherwise false")
+TEST_CASE("fix status flags shall return true when differential corrections flag is set otherwise false")
 {
     auto fix_st_flags = fix_status_flags
     {
@@ -28,7 +28,7 @@ TEST_CASE("fix status flags shall return true differential corrections flag is s
     REQUIRE(fix_st_flags.is_diff_soln_applied() == false);
 }
 
-TEST_CASE("fix status flags shall return different psm states is set otherwise false")
+TEST_CASE("fix status flags shall return different psm states")
 {
     auto fix_st_flags = fix_status_flags{};
 
@@ -91,7 +91,7 @@ TEST_CASE("fix status flags shall be able to be compare")
     REQUIRE(fix_st_flags == fix_st_flags2);
 }
 
-TEST_CASE("fix status flags shall be able to be  check for unequal")
+TEST_CASE("fix status flags shall be able to be check for unequal")
 {
     auto fix_st_flags = fix_status_flags
     {
