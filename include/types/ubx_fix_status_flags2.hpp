@@ -7,7 +7,7 @@ namespace ubx
 {
 
 /**
- * fix status flags3 of the nav-pvt message.
+ * fix status flags2 of the nav-pvt message.
  */
 struct fix_status_flags2
 {
@@ -46,7 +46,7 @@ struct fix_status_flags2
      * @return true both are the not equal, otherwise false.
      */
     friend bool operator!=(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs);
-};
+} __attribute__((packed));
 
 inline bool fix_status_flags2::is_confirmed_available() const noexcept
 {
