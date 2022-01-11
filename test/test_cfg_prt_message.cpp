@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include "ubx_port_configuration_message.hpp"
+#include "ubx_cfg_prt_message.hpp"
 #include "test_raw_messages.hpp"
 #include <catch2/catch.hpp>
 
@@ -13,21 +13,21 @@ constexpr auto valid_uart1_port_configuration_poll = std::array<std::uint8_t, 1>
 
 TEST_CASE("Default constructed port configuration shall be invalid")
 {
-    auto uart_port_cfg = port_configuration_message();
+    auto uart_port_cfg = cfg_prt_message();
 
     REQUIRE(uart_port_cfg.is_valid() == false);
 }
 
 TEST_CASE("port configuration shall return port from valid data")
 {
-    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
 
     REQUIRE(uart_port_cfg.get_port_id() == port_id::uart0);
 }
 
 TEST_CASE("uart port configuration shall return tx ready configuration from valid data")
 {
-    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_tx_ready_cfg = tx_ready_configuration
     {
         .enabled = true,
@@ -43,7 +43,7 @@ TEST_CASE("uart port configuration shall return tx ready configuration from vali
 
 TEST_CASE("port configuration shall return uart configuration from valid data")
 {
-    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_uart_cfg = uart_configuration
     {
         .data_length = static_cast<std::uint32_t>(data_length::bit7),
@@ -58,7 +58,7 @@ TEST_CASE("port configuration shall return uart configuration from valid data")
 
 TEST_CASE("port configuration shall return baud_rate configuration from valid data")
 {
-    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_baud_rate = static_cast<std::uint32_t>(115200);
     auto baud_rate = uart_port_cfg.get_baud_rate();
 
@@ -67,7 +67,7 @@ TEST_CASE("port configuration shall return baud_rate configuration from valid da
 
 TEST_CASE("port configuration shall return protocol_in_mask configuration from valid data")
 {
-    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_protocol_mask_in = protocol_in_mask
     {
         .ubx_in = true,
@@ -83,7 +83,7 @@ TEST_CASE("port configuration shall return protocol_in_mask configuration from v
 
 TEST_CASE("port configuration shall return protocol_out_mask configuration from valid data")
 {
-    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_protocol_mask_out = protocol_out_mask
     {
         .ubx_out = true,
@@ -98,7 +98,7 @@ TEST_CASE("port configuration shall return protocol_out_mask configuration from 
 
 TEST_CASE("port configuration shall return port_flags from valid data")
 {
-    auto uart_port_cfg = port_configuration_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
     auto expected_port_flags = port_flags
     {
         .extended_tx_timeout = true,
@@ -111,7 +111,7 @@ TEST_CASE("port configuration shall return port_flags from valid data")
 
 TEST_CASE("port configuration shall be invalid when payload is corrupted")
 {
-    auto uart_port_cfg = port_configuration_message{invalid_uart_port_config.begin(), invalid_uart_port_config.end()};
+    auto uart_port_cfg = cfg_prt_message{invalid_uart_port_config.begin(), invalid_uart_port_config.end()};
 
     REQUIRE(uart_port_cfg.is_valid() == false);
 }
@@ -119,7 +119,7 @@ TEST_CASE("port configuration shall be invalid when payload is corrupted")
 TEST_CASE("port configuration shall serialize the set port id.")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
 
     port_cfg.set_port_id(port_id::uart0);
     port_cfg.serialize(message_buffer.begin(), message_buffer.end());
@@ -130,7 +130,7 @@ TEST_CASE("port configuration shall serialize the set port id.")
 TEST_CASE("port configuration shall serialize the set tx ready configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto tx_ready_cfg = tx_ready_configuration
     {
         .enabled = true,
@@ -149,7 +149,7 @@ TEST_CASE("port configuration shall serialize the set tx ready configuration.")
 TEST_CASE("port configuration shall serialize the set uart configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     constexpr auto uart_cfg = uart_configuration
     {
         .data_length = static_cast<std::uint32_t>(data_length::bit7),
@@ -169,7 +169,7 @@ TEST_CASE("port configuration shall serialize the set uart configuration.")
 TEST_CASE("port configuration shall serialize the set baud rate configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto baud_rate = static_cast<std::uint32_t>(115200);
 
     port_cfg.set_baud_rate(baud_rate);
@@ -184,7 +184,7 @@ TEST_CASE("port configuration shall serialize the set baud rate configuration.")
 TEST_CASE("port configuration shall serialize the set protocol in mask configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto proto_in_mask = protocol_in_mask
     {
         .ubx_in = true,
@@ -203,7 +203,7 @@ TEST_CASE("port configuration shall serialize the set protocol in mask configura
 TEST_CASE("port configuration shall serialize the set protocol out mask configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto proto_out_mask = protocol_out_mask
     {
         .ubx_out = true,
@@ -221,7 +221,7 @@ TEST_CASE("port configuration shall serialize the set protocol out mask configur
 TEST_CASE("port configuration shall serialize the set port flags configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto prt_flags = port_flags
     {
         .extended_tx_timeout = true,
@@ -237,14 +237,14 @@ TEST_CASE("port configuration shall serialize the set port flags configuration."
 TEST_CASE("port configuration shall return when serialization is successful")
 {
     auto message_buffer = std::array<std::uint8_t, port_configuration_message_length>{0};
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
 
     REQUIRE(port_cfg.serialize(message_buffer.begin(), message_buffer.end()) == true);
 }
 
 TEST_CASE("port configuration poll shall be serializable with uart0")
 {
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto result = std::array<std::uint8_t, 1>{};
 
     port_cfg.set_port_id(port_id::uart0);
@@ -255,7 +255,7 @@ TEST_CASE("port configuration poll shall be serializable with uart0")
 
 TEST_CASE("port configuration poll shall be serializable with uart1")
 {
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto result = std::array<std::uint8_t, 1>{};
 
     port_cfg.set_port_id(port_id::uart1);
@@ -266,7 +266,7 @@ TEST_CASE("port configuration poll shall be serializable with uart1")
 
 TEST_CASE("port serialize poll shall return false when buffer is to small")
 {
-    auto port_cfg = port_configuration_message{};
+    auto port_cfg = cfg_prt_message{};
     auto broken_payload_buffer = std::array<std::uint8_t, 0>{};
 
     bool result = port_cfg.serialize_poll_message(broken_payload_buffer.begin(), broken_payload_buffer.end());

@@ -21,13 +21,13 @@ constexpr std::uint8_t port_configuration_message_id{0x00};
 constexpr std::uint8_t port_configuration_message_length{0x14};
 constexpr std::uint8_t port_configuration_poll_message_length{0x01};
 
-class port_configuration_message final : public message_base<port_configuration_message>
+class cfg_prt_message final : public message_base<cfg_prt_message>
 {
 public:
     /**
      * Default consturcted port_configuration_message
      */
-    port_configuration_message() = default;
+    cfg_prt_message() = default;
 
     /**
      * Constructs the port_configuration_message from the given message buffer. After construction
@@ -37,7 +37,7 @@ public:
      * @param end End of the message buffer.
      */
     template<typename read_iterator>
-    port_configuration_message(const read_iterator &begin, const read_iterator &end);
+    cfg_prt_message(const read_iterator &begin, const read_iterator &end);
 
     /**
      * @return Gives the port id.
@@ -140,7 +140,7 @@ private:
 };
 
 template<typename read_iterator>
-port_configuration_message::port_configuration_message(const read_iterator &begin, const read_iterator &end)
+cfg_prt_message::cfg_prt_message(const read_iterator &begin, const read_iterator &end)
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
@@ -173,78 +173,78 @@ port_configuration_message::port_configuration_message(const read_iterator &begi
     m_status = true;
 }
 
-inline port_id port_configuration_message::get_port_id() const noexcept
+inline port_id cfg_prt_message::get_port_id() const noexcept
 {
     return m_port_id;
 }
 
-inline void port_configuration_message::set_port_id(port_id id)
+inline void cfg_prt_message::set_port_id(port_id id)
 {
     m_port_id = id;
 }
 
-inline const tx_ready_configuration &port_configuration_message::get_tx_ready_configuration() const noexcept
+inline const tx_ready_configuration &cfg_prt_message::get_tx_ready_configuration() const noexcept
 {
     return m_tx_ready_cfg;
 }
 
-inline void port_configuration_message::set_tx_ready_configuration(const tx_ready_configuration &tx_ready_cfg)
+inline void cfg_prt_message::set_tx_ready_configuration(const tx_ready_configuration &tx_ready_cfg)
 {
     m_tx_ready_cfg = tx_ready_cfg;
 }
 
-inline const uart_configuration &port_configuration_message::get_uart_configuration() const noexcept
+inline const uart_configuration &cfg_prt_message::get_uart_configuration() const noexcept
 {
     return m_uart_cfg;
 }
 
-inline void port_configuration_message::set_uart_configuration(const uart_configuration &uart_cfg)
+inline void cfg_prt_message::set_uart_configuration(const uart_configuration &uart_cfg)
 {
     m_uart_cfg = uart_cfg;
 }
 
-inline const protocol_in_mask &port_configuration_message::get_protocol_in_mask() const noexcept
+inline const protocol_in_mask &cfg_prt_message::get_protocol_in_mask() const noexcept
 {
     return m_protocol_in_mask;
 }
 
-inline void port_configuration_message::set_protocol_in_mask(const protocol_in_mask &proto_in_mask)
+inline void cfg_prt_message::set_protocol_in_mask(const protocol_in_mask &proto_in_mask)
 {
     m_protocol_in_mask = proto_in_mask;
 }
 
-inline uint32_t port_configuration_message::get_baud_rate() const noexcept
+inline uint32_t cfg_prt_message::get_baud_rate() const noexcept
 {
     return m_baud_rate;
 }
 
-inline void port_configuration_message::set_baud_rate(uint32_t baudrate)
+inline void cfg_prt_message::set_baud_rate(uint32_t baudrate)
 {
     m_baud_rate = baudrate;
 }
 
-inline const protocol_out_mask &port_configuration_message::get_protocol_out_mask() const noexcept
+inline const protocol_out_mask &cfg_prt_message::get_protocol_out_mask() const noexcept
 {
     return m_protocol_out_mask;
 }
 
-inline void port_configuration_message::set_protocol_out_mask(const protocol_out_mask &proto_out_mask)
+inline void cfg_prt_message::set_protocol_out_mask(const protocol_out_mask &proto_out_mask)
 {
     m_protocol_out_mask = proto_out_mask;
 }
 
-inline const port_flags &port_configuration_message::get_port_flags() const noexcept
+inline const port_flags &cfg_prt_message::get_port_flags() const noexcept
 {
     return m_port_flags;
 }
 
-inline void port_configuration_message::set_port_flags(const port_flags &prt_flags)
+inline void cfg_prt_message::set_port_flags(const port_flags &prt_flags)
 {
     m_port_flags = prt_flags;
 }
 
 template<typename write_iterator>
-bool port_configuration_message::serialize(write_iterator begin, write_iterator end)
+bool cfg_prt_message::serialize(write_iterator begin, write_iterator end)
 {
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
@@ -299,7 +299,7 @@ bool port_configuration_message::serialize(write_iterator begin, write_iterator 
 }
 
 template<typename write_iterator>
-inline bool port_configuration_message::serialize_poll_message(write_iterator begin, write_iterator end)
+inline bool cfg_prt_message::serialize_poll_message(write_iterator begin, write_iterator end)
 {
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
