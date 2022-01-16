@@ -153,21 +153,21 @@ cfg_prt_message::cfg_prt_message(const read_iterator &begin, const read_iterator
 
     m_port_id = static_cast<port_id>(begin[0]);
 
-    auto tx_ready_cfg_raw = utilities::get_uint16(begin[3], begin[2]);
+    auto tx_ready_cfg_raw = utilities::convert_2byte_to_int<std::uint16_t>(begin[3], begin[2]);
     std::memcpy(&m_tx_ready_cfg, &tx_ready_cfg_raw, sizeof(tx_ready_configuration));
 
-    auto uart_cfg_raw = utilities::get_uint32(begin[7], begin[6], begin[5], begin[4]);
+    auto uart_cfg_raw = utilities::convert_4byte_to_int<std::uint32_t>(begin[7], begin[6], begin[5], begin[4]);
     std::memcpy(&m_uart_cfg, &uart_cfg_raw, sizeof(uart_configuration));
 
-    m_baud_rate = utilities::get_uint32(begin[11], begin[10], begin[9], begin[8]);
+    m_baud_rate = utilities::convert_4byte_to_int<std::uint32_t>(begin[11], begin[10], begin[9], begin[8]);
 
-    auto proto_in_mask_raw = utilities::get_uint16(begin[13], begin[12]);
+    auto proto_in_mask_raw = utilities::convert_2byte_to_int<std::uint16_t>(begin[13], begin[12]);
     std::memcpy(&m_protocol_in_mask, &proto_in_mask_raw, sizeof(protocol_in_mask));
 
-    auto proto_out_mask_raw = utilities::get_uint16(begin[15], begin[14]);
+    auto proto_out_mask_raw = utilities::convert_2byte_to_int<std::uint16_t>(begin[15], begin[14]);
     std::memcpy(&m_protocol_out_mask, &proto_out_mask_raw, sizeof(protocol_out_mask));
 
-    auto port_flags_raw = utilities::get_uint16(begin[17], begin[16]);
+    auto port_flags_raw = utilities::convert_2byte_to_int<std::uint16_t>(begin[17], begin[16]);
     std::memcpy(&m_port_flags, &port_flags_raw, sizeof(port_flags));
 
     m_status = true;

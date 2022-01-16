@@ -8,13 +8,29 @@
 namespace ubx::utilities
 {
 
-std::uint16_t get_uint16(std::uint8_t high_byte,
-                         std::uint8_t low_byte);
+template<typename T>
+T convert_2byte_to_int(std::uint8_t high_byte,
+                     std::uint8_t low_byte)
+{
+    static_assert(std::is_same_v<T, std::uint16_t> || std::is_same_v<T, std::int16_t>,
+                  "Only allowed values are std::uint32 or std::int32");
+    return (high_byte << 8) | low_byte;
+}
 
-std::uint32_t get_uint32(std::uint8_t fourth_byte,
-                         std::uint8_t third_byte,
-                         std::uint8_t second_byte,
-                         std::uint8_t first_byte);
+template<typename T>
+T convert_4byte_to_int(std::uint8_t fourth_byte,
+                       std::uint8_t third_byte,
+                       std::uint8_t second_byte,
+                       std::uint8_t first_byte)
+{
+    static_assert(std::is_same_v<T, std::uint32_t> || std::is_same_v<T, std::int32_t>,
+                  "Only allowed values are std::uint32 or std::int32");
+
+    return fourth_byte << 24 |
+           third_byte << 16 |
+           second_byte << 8 |
+           first_byte;
+}
 
 struct checksum_result
 {

@@ -93,7 +93,7 @@ public:
 
         m_class_id = static_cast<class_id>(frame_begin[2]);
         m_message_id = frame_begin[3];
-        m_payload_length = utilities::get_uint16(frame_begin[5], frame_begin[4]);
+        m_payload_length = utilities::convert_2byte_to_int<std::uint16_t>(frame_begin[5], frame_begin[4]);
 
         constexpr size_t checksum_length = 2;
         if(len < frame_header_size + m_payload_length + checksum_length)
