@@ -23,13 +23,24 @@ enum class fix_type : std::uint8_t
     time_only = 5,
 };
 
-constexpr std::uint8_t nav_pvt_class_id = 0x01;
-constexpr std::uint8_t nav_pvt_message_id = 0x07;
-constexpr std::uint8_t nav_pvt_length = 0x5C;
-
 class nav_pvt_message : public message_base<nav_pvt_message>
 {
 public:
+    /**
+     * Class ID
+     */
+    constexpr static std::uint8_t nav_pvt_class_id = 0x01;
+
+    /**
+     * Message ID
+     */
+    constexpr static std::uint8_t nav_pvt_message_id = 0x07;
+
+    /**
+     * Message Length
+     */
+    constexpr static std::uint8_t nav_pvt_length = 0x5C;
+
     /**
      * Creates a default constructed nav_pvt_message object.
      */

@@ -40,7 +40,7 @@ TEST_CASE("The message configuration shall be invalid after read in broken paylo
 
 TEST_CASE("The message configuration shall serialize the set class id.")
 {
-    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message_length>{0};
+    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message::cfg_msg_message_length>{0};
     auto msg_cfg = cfg_msg_message{};
     msg_cfg.set_class_id(class_id::sec);
     msg_cfg.serialize(msg_buffer.begin(), msg_buffer.end());
@@ -49,7 +49,7 @@ TEST_CASE("The message configuration shall serialize the set class id.")
 
 TEST_CASE("The message configuration shall serialize the set message id.")
 {
-    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message_length>{0};
+    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message::cfg_msg_message_length>{0};
     auto msg_cfg = cfg_msg_message{};
     msg_cfg.set_message_id(0x20);
     msg_cfg.serialize(msg_buffer.begin(), msg_buffer.end());
@@ -58,7 +58,7 @@ TEST_CASE("The message configuration shall serialize the set message id.")
 
 TEST_CASE("The message configuration shall serialize the set rate.")
 {
-    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message_length>{0};
+    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message::cfg_msg_message_length>{0};
     auto msg_cfg = cfg_msg_message{};
     msg_cfg.set_rate(0x05);
     msg_cfg.serialize(msg_buffer.begin(), msg_buffer.end());
@@ -67,7 +67,7 @@ TEST_CASE("The message configuration shall serialize the set rate.")
 
 TEST_CASE("The message configuration shall return true when successful serialized")
 {
-    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message_length>{0};
+    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message::cfg_msg_message_length>{0};
     auto msg_cfg = cfg_msg_message{};
     REQUIRE(msg_cfg.serialize(msg_buffer.begin(), msg_buffer.end()) == true);
 }
@@ -81,7 +81,7 @@ TEST_CASE("The message configuration serialize shall return false when buffer is
 
 TEST_CASE("The message configuration shall be able to serialize the class id into a poll request.")
 {
-    auto msg_buffer = std::array<std::uint8_t, cfg_msg_poll_message_length>{0};
+    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message::cfg_msg_poll_message_length>{0};
     auto msg_cfg = cfg_msg_message{};
     msg_cfg.set_class_id(class_id::sec);
     msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end());
@@ -90,7 +90,7 @@ TEST_CASE("The message configuration shall be able to serialize the class id int
 
 TEST_CASE("The message configuration shall be able to serialize the message id into a poll request.")
 {
-    auto msg_buffer = std::array<std::uint8_t, cfg_msg_poll_message_length>{0};
+    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message::cfg_msg_poll_message_length>{0};
     auto msg_cfg = cfg_msg_message{};
     msg_cfg.set_message_id(0x20);
     msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end());
@@ -99,7 +99,7 @@ TEST_CASE("The message configuration shall be able to serialize the message id i
 
 TEST_CASE("The message configuration poll serialization shall return on success.")
 {
-    auto msg_buffer = std::array<std::uint8_t, cfg_msg_poll_message_length>{0};
+    auto msg_buffer = std::array<std::uint8_t, cfg_msg_message::cfg_msg_poll_message_length>{0};
     auto msg_cfg = cfg_msg_message{};
     REQUIRE(msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end()) == true);
 }

@@ -118,7 +118,7 @@ TEST_CASE("port configuration shall be invalid when payload is corrupted")
 
 TEST_CASE("port configuration shall serialize the set port id.")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
 
     port_cfg.set_port_id(port_id::uart0);
@@ -129,7 +129,7 @@ TEST_CASE("port configuration shall serialize the set port id.")
 
 TEST_CASE("port configuration shall serialize the set tx ready configuration.")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
     auto tx_ready_cfg = tx_ready_configuration
     {
@@ -148,7 +148,7 @@ TEST_CASE("port configuration shall serialize the set tx ready configuration.")
 
 TEST_CASE("port configuration shall serialize the set uart configuration.")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
     constexpr auto uart_cfg = uart_configuration
     {
@@ -168,7 +168,7 @@ TEST_CASE("port configuration shall serialize the set uart configuration.")
 
 TEST_CASE("port configuration shall serialize the set baud rate configuration.")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
     auto baud_rate = static_cast<std::uint32_t>(115200);
 
@@ -183,7 +183,7 @@ TEST_CASE("port configuration shall serialize the set baud rate configuration.")
 
 TEST_CASE("port configuration shall serialize the set protocol in mask configuration.")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
     auto proto_in_mask = protocol_in_mask
     {
@@ -202,7 +202,7 @@ TEST_CASE("port configuration shall serialize the set protocol in mask configura
 
 TEST_CASE("port configuration shall serialize the set protocol out mask configuration.")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
     auto proto_out_mask = protocol_out_mask
     {
@@ -220,7 +220,7 @@ TEST_CASE("port configuration shall serialize the set protocol out mask configur
 
 TEST_CASE("port configuration shall serialize the set port flags configuration.")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
     auto prt_flags = port_flags
     {
@@ -236,7 +236,7 @@ TEST_CASE("port configuration shall serialize the set port flags configuration."
 
 TEST_CASE("port configuration shall return when serialization is successful")
 {
-    auto message_buffer = std::array<std::uint8_t, cfg_port_message_length>{0};
+    auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
 
     REQUIRE(port_cfg.serialize(message_buffer.begin(), message_buffer.end()) == true);

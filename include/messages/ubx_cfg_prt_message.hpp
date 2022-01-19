@@ -16,14 +16,29 @@
 namespace ubx
 {
 
-constexpr std::uint8_t cfg_prt_message_class_id{0x06};
-constexpr std::uint8_t cfg_port_message_message_id{0x00};
-constexpr std::uint8_t cfg_port_message_length{0x14};
-constexpr std::uint8_t cfg_port_poll_message_length{0x01};
-
 class cfg_prt_message final : public message_base<cfg_prt_message>
 {
 public:
+    /**
+     * Class ID
+     */
+    constexpr static std::uint8_t cfg_prt_message_class_id{0x06};
+
+    /**
+     * Message ID
+     */
+    constexpr static std::uint8_t cfg_port_message_message_id{0x00};
+
+    /**
+     * Message length
+     */
+    constexpr static std::uint8_t cfg_port_message_length{0x14};
+
+    /**
+     * Poll message length
+     */
+    constexpr static std::uint8_t cfg_port_poll_message_length{0x01};
+
     /**
      * Default consturcted port_configuration_message
      */

@@ -7,13 +7,24 @@
 namespace ubx
 {
 
-constexpr std::uint8_t ack_nack_class_id{0x05};
-constexpr std::uint8_t ack_nack_message_id{0x00};
-constexpr std::uint8_t ack_nack_length{0x02};
-
 class ack_nack_message : public message_base<ack_nack_message>
 {
 public:
+    /**
+     * Class ID
+     */
+    constexpr static std::uint8_t ack_nack_class_id{0x05};
+
+    /**
+     * Message ID
+     */
+    constexpr static std::uint8_t ack_nack_message_id{0x00};
+
+    /**
+     * Message length
+     */
+    constexpr static std::uint8_t ack_nack_length{0x02};
+
     ack_nack_message() = default;
 
     template<typename read_iterator>

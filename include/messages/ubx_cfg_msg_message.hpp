@@ -8,14 +8,30 @@
 namespace ubx
 {
 
-constexpr std::uint8_t cfg_msg_message_class_id{0x06};
-constexpr std::uint8_t cfg_msg_message_message_id{0x01};
-constexpr std::uint8_t cfg_msg_message_length{3};
-constexpr std::uint8_t cfg_msg_poll_message_length{2};
-
 class cfg_msg_message final : public message_base<cfg_msg_message>
 {
 public:
+    /**
+     * Class ID
+     */
+    constexpr static std::uint8_t cfg_msg_message_class_id{0x06};
+
+    /**
+     * Message ID
+     */
+    constexpr static std::uint8_t cfg_msg_message_message_id{0x01};
+
+    /**
+     * Message length
+     */
+    constexpr static std::uint8_t cfg_msg_message_length{3};
+
+    /**
+     * Poll Message length
+     */
+    constexpr static std::uint8_t cfg_msg_poll_message_length{2};
+
+
     /**
      * Creates an empty message configuration object.
      */
