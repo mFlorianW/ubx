@@ -19,7 +19,7 @@ bool create_frame(std::int8_t class_id,
                   write_iterator frame_end)
 {
     //put preamble
-    constexpr auto char_sync1 = 0x5b;
+    constexpr auto char_sync1 = 0xb5;
     constexpr auto char_sync2 = 0x62;
     frame_begin[0] = char_sync1;
     frame_begin[1] = char_sync2;
