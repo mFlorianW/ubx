@@ -22,7 +22,7 @@ TEST_CASE("Frame factory shall put ubx preamble in frame buffer")
                                 frame_buffer.begin(),
                                 frame_buffer.end());
 
-    REQUIRE(frame_buffer[0] == '['); //catch interprets frame_buffer[0] as '['
+    REQUIRE(frame_buffer[0] == expected_frame_buffer[0]);
     REQUIRE(frame_buffer[1] == expected_frame_buffer[1]);
 }
 
