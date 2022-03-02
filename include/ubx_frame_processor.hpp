@@ -39,10 +39,10 @@ public:
                                                             fr.get_payload_end());
                 if (msg_ptr == nullptr)
                 {
-                    // printf("message pointer is nullptr \n");
                     ++data_begin;
                     continue;
                 }
+
                 msg_ptr->dispatch(m_msg_handler);
                 data_begin = fr.get_frame_end();
             }

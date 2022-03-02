@@ -40,6 +40,19 @@ public:
     }
 };
 
+class factory_for_unsupported_messages final
+{
+public:
+    template <typename read_iterator>
+    std::unique_ptr<message> create_message(std::uint8_t class_id,
+                                            std::uint8_t message_id,
+                                            read_iterator payload_begin,
+                                            read_iterator payload_end)
+    {
+        return nullptr;
+    }
+};
+
 class testing_handler : public message_handler<simple_uint8_message>
 {
 public:
@@ -102,4 +115,14 @@ TEST_CASE("read in multiple frames in one buffer")
 
     frp.process_data(buffer_with_two_frames.cbegin(), buffer_with_two_frames.cend());
     REQUIRE(msg_handler.how_often_is_handle_called() == 2);
+}
+
+TEST_CASE("handle unsupported message types and igonore them")
+{
+    factory_for_unsupported_messages msg_factory;
+    testing_handler msg_handler;
+    frame_processor<factory_for_unsupported_messages, testing_handler> frp{msg_factory, msg_handler};
+
+    frp.process_data(frame_with_payload.cbegin(), frame_with_payload.cend());
+    REQUIRE(msg_handler.is_simple_uint8_handle_called() == false);
 }

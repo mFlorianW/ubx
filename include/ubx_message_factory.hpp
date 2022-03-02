@@ -2,6 +2,7 @@
 #define UBX_MESSAGE_FACTORY_HPP
 
 #include "ubx_message.hpp"
+#include "ubx_cfg_prt_message.hpp"
 #include <memory>
 
 namespace ubx

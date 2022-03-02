@@ -4,7 +4,6 @@ add_library(Ubx::Object ALIAS UbxObject)
 target_sources(UbxObject
 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/ubx_utilities.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ubx_message_factory.cpp
 )
 
 target_include_directories(UbxObject
