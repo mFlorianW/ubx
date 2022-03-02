@@ -31,12 +31,12 @@ enum class stop_bits
 
 struct uart_configuration
 {
-    std::uint32_t reserved:6;
-    std::uint32_t data_length:2;
-    std::uint32_t reserved_1:1;
-    std::uint32_t parity:3;
-    std::uint32_t stop_bits:2;
-    std::uint32_t reserved_2:18;
+    std::uint32_t reserved : 6;
+    std::uint32_t data_length : 2;
+    std::uint32_t reserved_1 : 1;
+    std::uint32_t parity : 3;
+    std::uint32_t stop_bits : 2;
+    std::uint32_t reserved_2 : 18;
 
     ubx::data_length get_data_length() const noexcept;
 
@@ -44,8 +44,8 @@ struct uart_configuration
 
     ubx::stop_bits get_stop_bits() const noexcept;
 
-    friend bool operator== (const uart_configuration& cfg1, const uart_configuration& cfg2);
-    friend bool operator!= (const uart_configuration& cfg1, const uart_configuration& cfg2);
+    friend bool operator==(const uart_configuration &cfg1, const uart_configuration &cfg2);
+    friend bool operator!=(const uart_configuration &cfg1, const uart_configuration &cfg2);
 
 } __attribute__((packed));
 
@@ -64,15 +64,17 @@ inline ubx::stop_bits uart_configuration::get_stop_bits() const noexcept
     return static_cast<ubx::stop_bits>(stop_bits);
 }
 
-bool operator==(const uart_configuration& cfg1, const uart_configuration& cfg2)
+inline bool operator==(const uart_configuration &cfg1, const uart_configuration &cfg2)
 {
+    // clang-format off
     // The reservered areas are ignored.
     return (cfg1.data_length == cfg2.data_length &&
             cfg1.parity == cfg2.parity &&
             cfg1.stop_bits == cfg2.stop_bits);
+    // clang-format on
 }
 
-bool operator!=(const uart_configuration& cfg1, const uart_configuration& cfg2)
+inline bool operator!=(const uart_configuration &cfg1, const uart_configuration &cfg2)
 {
     return !(cfg1 == cfg2);
 }

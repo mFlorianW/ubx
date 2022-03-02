@@ -11,10 +11,10 @@ namespace ubx
  */
 struct fix_status_flags2
 {
-    std::uint8_t resevered:5;
-    std::uint8_t confirmed_available:1;
-    std::uint8_t confirmed_date:1;
-    std::uint8_t confirmed_time:1;
+    std::uint8_t resevered : 5;
+    std::uint8_t confirmed_available : 1;
+    std::uint8_t confirmed_date : 1;
+    std::uint8_t confirmed_time : 1;
 
     /**
      * @return True UTC date and Time of day validity is available otherwise false.
@@ -65,9 +65,11 @@ inline bool fix_status_flags2::is_time_confirmed()
 
 bool operator==(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
 {
+    // clang-format off
     return ((lhs.confirmed_available == rhs.confirmed_available) &&
             (lhs.confirmed_date == rhs.confirmed_date) &&
             (lhs.confirmed_time == rhs.confirmed_time));
+    // clang-format on
 }
 
 bool operator!=(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
@@ -75,6 +77,6 @@ bool operator!=(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
     return !(lhs == rhs);
 }
 
-} //namespace ubx
+} // namespace ubx
 
 #endif // UBX_FIX_STATUS_FLAGS2_HPP

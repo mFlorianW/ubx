@@ -30,9 +30,9 @@ enum last_correction_age : std::uint8_t
  */
 struct fix_status_flags3
 {
-    std::uint16_t invalid_llh:1;
-    std::uint16_t last_correction_age:4;
-    std::uint16_t reserved:11;
+    std::uint16_t invalid_llh : 1;
+    std::uint16_t last_correction_age : 4;
+    std::uint16_t reserved : 11;
 
     /**
      * @return True longitue latitude, height and hMSL are invalid otherwise false.
@@ -43,7 +43,6 @@ struct fix_status_flags3
      * @return The age of most recently received differential correction.
      */
     enum last_correction_age get_last_correction_age() const noexcept;
-
 
     /**
      * Equal operator resvered values are ignored.
@@ -72,17 +71,19 @@ enum last_correction_age fix_status_flags3::get_last_correction_age() const noex
     return static_cast<enum last_correction_age>(last_correction_age);
 }
 
-bool operator==(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs)
+inline bool operator==(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs)
 {
+    // clang-format off
     return ((lhs.invalid_llh == rhs.invalid_llh) &&
             (lhs.last_correction_age == rhs.last_correction_age));
+    // clang-format on
 }
 
-bool operator!=(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs)
+inline bool operator!=(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs)
 {
     return !(lhs == rhs);
 }
 
-} //namespace ubx
+} // namespace ubx
 
 #endif // UBX_FIX_STATUS_FLAGS3_HPP

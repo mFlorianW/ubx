@@ -29,11 +29,11 @@ enum class carrier_phase_range_solution_status
  */
 struct fix_status_flags
 {
-    std::uint8_t gnss_fix_ok:1;
-    std::uint8_t diff_soln:1;
-    std::uint8_t psm_state:3;
-    std::uint8_t head_of_vehicle:1;
-    std::uint8_t carrier_phase_range_solution:2;
+    std::uint8_t gnss_fix_ok : 1;
+    std::uint8_t diff_soln : 1;
+    std::uint8_t psm_state : 3;
+    std::uint8_t head_of_vehicle : 1;
+    std::uint8_t carrier_phase_range_solution : 2;
 
     /**
      * @return Checks if the gnss fix ok flag is.
@@ -105,16 +105,18 @@ inline carrier_phase_range_solution_status fix_status_flags::get_carrier_phase_s
     return static_cast<carrier_phase_range_solution_status>(carrier_phase_range_solution);
 }
 
-bool operator==(const fix_status_flags &lhs, const fix_status_flags &rhs)
+inline bool operator==(const fix_status_flags &lhs, const fix_status_flags &rhs)
 {
+    // clang-format off
     return ((lhs.gnss_fix_ok == rhs.gnss_fix_ok) &&
             (lhs.diff_soln == rhs.diff_soln) &&
             (lhs.psm_state == rhs.psm_state) &&
             (lhs.head_of_vehicle == rhs.head_of_vehicle) &&
             (lhs.carrier_phase_range_solution == rhs.carrier_phase_range_solution));
+    //clang-format on
 }
 
-bool operator!=(const fix_status_flags &lhs, const fix_status_flags &rhs)
+inline bool operator!=(const fix_status_flags &lhs, const fix_status_flags &rhs)
 {
     return !(lhs == rhs);
 }
