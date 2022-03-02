@@ -79,6 +79,7 @@ public:
                       "The iterator must be of type std::unit8_t");
 
         constexpr size_t frame_header_size = 6;
+        constexpr size_t frame_crc_length = 2;
         auto len = std::distance(frame_begin, frame_end);
         if(len < frame_header_size)
         {
@@ -108,6 +109,7 @@ public:
 
         m_payload_begin = frame_begin + frame_header_size;
         m_payload_end = frame_begin + frame_header_size + m_payload_length;
+        m_frame_end = frame_begin + frame_header_size + m_payload_length + frame_crc_length;
         return frame_read_result::ok;
     }
 
@@ -127,6 +129,11 @@ public:
     const read_iterator& get_payload_end() const noexcept
     {
         return m_payload_end;
+    }
+
+    const read_iterator& get_frame_end() const noexcept
+    {
+        return m_frame_end;
     }
 
 private:
@@ -155,6 +162,7 @@ private:
     bool m_checksum_result{false};
     read_iterator m_payload_begin;
     read_iterator m_payload_end;
+    read_iterator m_frame_end;
 };
 
 } //Ubx

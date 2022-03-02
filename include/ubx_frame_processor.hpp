@@ -3,6 +3,7 @@
 
 #include "ubx_frame.hpp"
 #include <tuple>
+#include <algorithm>
 
 namespace ubx
 {
@@ -28,14 +29,22 @@ public:
     void process_data(read_iterator data_begin, read_iterator data_end)
     {
         frame<read_iterator> fr;
-        fr.read(data_begin, data_end);
-
-        auto msg_ptr = m_msg_factory.create_message(fr.get_class_id(),
-                                                    fr.get_message_id(),
-                                                    fr.get_payload_begin(),
-                                                    fr.get_payload_end());
-
-        msg_ptr->dispatch(m_msg_handler);
+        while(data_begin != data_end)
+        {
+            if(fr.read(data_begin, data_end) == frame_read_result::ok)
+            {
+                auto msg_ptr = m_msg_factory.create_message(fr.get_class_id(),
+                                                            fr.get_message_id(),
+                                                            fr.get_payload_begin(),
+                                                            fr.get_payload_end());
+                msg_ptr->dispatch(m_msg_handler);
+                data_begin = fr.get_frame_end();
+            }
+            else
+            {
+                ++data_begin;
+            }
+        }
     }
 
 private:

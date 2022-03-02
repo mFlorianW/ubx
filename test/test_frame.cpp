@@ -1,17 +1,17 @@
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
 #include "ubx_frame.hpp"
+#include <catch2/catch.hpp>
 
 using namespace ubx;
 
 namespace
 {
-auto frame_without_payload =  std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x00, 0x00, 0x00};
-auto frame_with_payload =  std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x01, 0x00, 0x20, 0x44, 0xB0};
-auto frame_with_crc_error =  std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x01, 0x00, 0x20, 0x00, 0x00};
+auto frame_without_payload = std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x00, 0x00, 0x00};
+auto frame_with_payload = std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x01, 0x00, 0x20, 0x44, 0xB0};
+auto frame_with_crc_error = std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x01, 0x00, 0x20, 0x00, 0x00};
 auto frame_chunk = std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x01, 0x00};
 auto frame_corrupted = std::vector<std::uint8_t>{0xB5, 0x61, 0x01, 0x22, 0x01, 0x00};
-}
+} // namespace
 
 using vector_frame = frame<std::vector<std::uint8_t>::const_iterator>;
 
@@ -97,4 +97,14 @@ TEST_CASE("Return end iterator for the payload")
     auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
     REQUIRE(result == frame_read_result::ok);
     REQUIRE(fr.get_payload_end() == expected_iterator);
+}
+
+TEST_CASE("Return end iterator for the frame")
+{
+    vector_frame fr;
+    const auto expected_iterator = frame_with_payload.cbegin() + 9;
+
+    auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
+    REQUIRE(result == frame_read_result::ok);
+    REQUIRE(fr.get_frame_end() == expected_iterator);
 }
