@@ -11,11 +11,11 @@ namespace ubx
  */
 struct validity_flags
 {
-    std::uint8_t valid_date:1;
-    std::uint8_t valid_time:1;
-    std::uint8_t fully_resolved:1;
-    std::uint8_t valid_msg:1;
-    std::uint8_t reserved:4;
+    std::uint8_t valid_date : 1;
+    std::uint8_t valid_time : 1;
+    std::uint8_t fully_resolved : 1;
+    std::uint8_t valid_msg : 1;
+    std::uint8_t reserved : 4;
 
     /**
      * @return True valid date flag is set otherwise false.
@@ -74,19 +74,21 @@ inline bool validity_flags::is_msg_valid() const noexcept
     return valid_msg;
 }
 
-bool operator==(const validity_flags &lhs, const validity_flags &rhs)
+inline bool operator==(const validity_flags &lhs, const validity_flags &rhs)
 {
+    // clang-format off
     return ((lhs.valid_date == rhs.valid_date) &&
             (lhs.valid_time == rhs.valid_time) &&
             (lhs.fully_resolved == rhs.fully_resolved) &&
             (lhs.valid_msg == rhs.valid_msg));
+    // clang-format on
 }
 
-bool operator!=(const validity_flags &lhs, const validity_flags &rhs)
+inline bool operator!=(const validity_flags &lhs, const validity_flags &rhs)
 {
     return !(lhs == rhs);
 }
 
-} //namespace ubx
+} // namespace ubx
 
 #endif // UBX_VALIDITY_FLAGS_HPP
