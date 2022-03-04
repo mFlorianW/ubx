@@ -2,16 +2,16 @@
 #define UBX_UART_PORT_CONFIGURATION_MESSAGE_HPP
 
 #include "ubx_ack_ack_message.hpp"
-#include "ubx_types.hpp"
-#include "ubx_tx_ready_configuration.hpp"
-#include "ubx_utilities.hpp"
-#include "ubx_uart_configuration.hpp"
+#include "ubx_port_flags.hpp"
 #include "ubx_protocol_in_mask.hpp"
 #include "ubx_protocol_out_mask.hpp"
-#include "ubx_port_flags.hpp"
-#include <cstring>
-#include <cstdio>
+#include "ubx_tx_ready_configuration.hpp"
+#include "ubx_types.hpp"
+#include "ubx_uart_configuration.hpp"
+#include "ubx_utilities.hpp"
 #include <array>
+#include <cstdio>
+#include <cstring>
 
 namespace ubx
 {
@@ -68,7 +68,7 @@ public:
     /**
      * @return Gives the tx_ready_configuration.
      */
-    const tx_ready_configuration& get_tx_ready_configuration() const noexcept;
+    const tx_ready_configuration &get_tx_ready_configuration() const noexcept;
 
     /**
      * Sets a tx_ready_configuration.
@@ -79,7 +79,7 @@ public:
     /**
      * @return Gives the tx_uart_configuration.
      */
-    const uart_configuration& get_uart_configuration() const noexcept;
+    const uart_configuration &get_uart_configuration() const noexcept;
 
     /**
      * Set a uart_configuration
@@ -90,7 +90,7 @@ public:
     /**
      * @return Gives the protocol_in_mask.
      */
-    const protocol_in_mask& get_protocol_in_mask() const noexcept;
+    const protocol_in_mask &get_protocol_in_mask() const noexcept;
 
     /**
      * Sets a new protocol in mask.
@@ -112,7 +112,7 @@ public:
     /**
      * @return Gives the protocol_out_mask.
      */
-    const protocol_out_mask& get_protocol_out_mask() const noexcept;
+    const protocol_out_mask &get_protocol_out_mask() const noexcept;
 
     /**
      * Set a new protocol out mask.
@@ -123,7 +123,7 @@ public:
     /**
      * @return Gives the port_flags.
      */
-    const port_flags& get_port_flags() const noexcept;
+    const port_flags &get_port_flags() const noexcept;
 
     /**
      * Set new port flags configuration.
@@ -157,11 +157,11 @@ private:
 template<typename read_iterator>
 cfg_prt_message::cfg_prt_message(const read_iterator &begin, const read_iterator &end)
 {
-    static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
+    static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
     constexpr std::uint8_t payload_length = 20;
-    if(std::distance(begin, end) < payload_length)
+    if (std::distance(begin, end) < payload_length)
     {
         return;
     }
@@ -261,22 +261,22 @@ inline void cfg_prt_message::set_port_flags(const port_flags &prt_flags)
 template<typename write_iterator>
 bool cfg_prt_message::serialize(write_iterator begin, write_iterator end)
 {
-    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
+    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    //set port id
+    // set port id
     begin[0] = static_cast<std::uint8_t>(m_port_id);
 
-    //set resevered byte to 0
+    // set resevered byte to 0
     begin[1] = 0;
 
-    //serialize tx_ready_cfg
+    // serialize tx_ready_cfg
     auto raw_tx_ready_cfg = std::array<std::uint8_t, 2>{0};
     std::memcpy(&raw_tx_ready_cfg, &m_tx_ready_cfg, sizeof(tx_ready_configuration));
     begin[2] = raw_tx_ready_cfg[0];
     begin[3] = raw_tx_ready_cfg[1];
 
-    //serialize uart configuration
+    // serialize uart configuration
     auto raw_uart_cfg = std::array<std::uint8_t, 4>{0};
     std::memcpy(&raw_uart_cfg, &m_uart_cfg, sizeof(uart_configuration));
     begin[4] = raw_uart_cfg[0];
@@ -284,7 +284,7 @@ bool cfg_prt_message::serialize(write_iterator begin, write_iterator end)
     begin[6] = raw_uart_cfg[2];
     begin[7] = raw_uart_cfg[3];
 
-    //serialize baud rate
+    // serialize baud rate
     auto raw_baud_rate = std::array<std::uint8_t, 4>{0};
     std::memcpy(&raw_baud_rate, &m_baud_rate, sizeof(std::uint32_t));
     begin[8] = raw_baud_rate[0];
@@ -292,19 +292,19 @@ bool cfg_prt_message::serialize(write_iterator begin, write_iterator end)
     begin[10] = raw_baud_rate[2];
     begin[11] = raw_baud_rate[3];
 
-    //serialize proto in mask
+    // serialize proto in mask
     auto raw_proto_in_mask = std::array<std::uint8_t, 2>{};
     std::memcpy(&raw_proto_in_mask, &m_protocol_in_mask, sizeof(protocol_out_mask));
     begin[12] = raw_proto_in_mask[0];
     begin[13] = raw_proto_in_mask[1];
 
-    //serialize proto out mask
+    // serialize proto out mask
     auto raw_proto_out_mask = std::array<std::uint8_t, 2>{};
     std::memcpy(&raw_proto_out_mask, &m_protocol_out_mask, sizeof(protocol_out_mask));
     begin[14] = raw_proto_out_mask[0];
     begin[15] = raw_proto_out_mask[1];
 
-    //serialize port flags
+    // serialize port flags
     auto raw_port_flags = std::array<std::uint8_t, 2>{};
     std::memcpy(&raw_port_flags, &m_port_flags, sizeof(port_flags));
     begin[16] = raw_port_flags[0];
@@ -316,10 +316,10 @@ bool cfg_prt_message::serialize(write_iterator begin, write_iterator end)
 template<typename write_iterator>
 inline bool cfg_prt_message::serialize_poll_message(write_iterator begin, write_iterator end)
 {
-    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
+    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < cfg_port_poll_message_length)
+    if (std::distance(begin, end) < cfg_port_poll_message_length)
     {
         return false;
     }

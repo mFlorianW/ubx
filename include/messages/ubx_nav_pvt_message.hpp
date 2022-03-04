@@ -1,12 +1,12 @@
 #ifndef UBX_NAV_PVT_MESSAGE_HPP
 #define UBX_NAV_PVT_MESSAGE_HPP
 
-#include "ubx_message.hpp"
-#include "ubx_utilities.hpp"
-#include "ubx_validity_flags.hpp"
 #include "ubx_fix_status_flags.hpp"
 #include "ubx_fix_status_flags2.hpp"
 #include "ubx_fix_status_flags3.hpp"
+#include "ubx_message.hpp"
+#include "ubx_utilities.hpp"
+#include "ubx_validity_flags.hpp"
 #include <cstdint>
 #include <cstring>
 
@@ -254,10 +254,10 @@ private:
 template<typename read_iterator>
 nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator end)
 {
-    static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
+    static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < nav_pvt_length)
+    if (std::distance(begin, end) < nav_pvt_length)
     {
         return;
     }
@@ -274,7 +274,8 @@ nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator
 
     std::memcpy(&m_validity_flags, &begin[11], sizeof(validity_flags));
 
-    m_time_accruacy_estimate = utilities::convert_4byte_to_int<std::uint32_t>(begin[15], begin[14], begin[13], begin[12]);
+    m_time_accruacy_estimate =
+        utilities::convert_4byte_to_int<std::uint32_t>(begin[15], begin[14], begin[13], begin[12]);
 
     m_fraction_of_second = utilities::convert_4byte_to_int<std::int32_t>(begin[19], begin[18], begin[17], begin[16]);
 
@@ -286,14 +287,20 @@ nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator
     m_number_of_setellites = begin[23];
 
     constexpr auto scaling_factor = 1e-7;
-    m_longitude = utilities::convert_4byte_to_int<std::int32_t>(begin[27], begin[26], begin[25], begin[24]) * scaling_factor;
-    m_latitude = utilities::convert_4byte_to_int<std::int32_t>(begin[31], begin[30], begin[29], begin[28]) * scaling_factor;
+    m_longitude =
+        utilities::convert_4byte_to_int<std::int32_t>(begin[27], begin[26], begin[25], begin[24]) * scaling_factor;
+    m_latitude =
+        utilities::convert_4byte_to_int<std::int32_t>(begin[31], begin[30], begin[29], begin[28]) * scaling_factor;
 
-    m_height_above_ellipsoid = utilities::convert_4byte_to_int<std::int32_t>(begin[35], begin[34], begin[33], begin[32]);
-    m_height_above_mean_sea_level = utilities::convert_4byte_to_int<std::int32_t>(begin[39], begin[38], begin[37], begin[36]);
+    m_height_above_ellipsoid =
+        utilities::convert_4byte_to_int<std::int32_t>(begin[35], begin[34], begin[33], begin[32]);
+    m_height_above_mean_sea_level =
+        utilities::convert_4byte_to_int<std::int32_t>(begin[39], begin[38], begin[37], begin[36]);
 
-    m_horizontal_accuracy_estimate = utilities::convert_4byte_to_int<std::uint32_t>(begin[43], begin[42], begin[41], begin[40]);
-    m_vertical_accuracy_estimate = utilities::convert_4byte_to_int<std::uint32_t>(begin[47], begin[46], begin[45], begin[44]);
+    m_horizontal_accuracy_estimate =
+        utilities::convert_4byte_to_int<std::uint32_t>(begin[43], begin[42], begin[41], begin[40]);
+    m_vertical_accuracy_estimate =
+        utilities::convert_4byte_to_int<std::uint32_t>(begin[47], begin[46], begin[45], begin[44]);
 
     m_ned_velocity_north = utilities::convert_4byte_to_int<std::int32_t>(begin[51], begin[50], begin[49], begin[48]);
     m_ned_velocity_east = utilities::convert_4byte_to_int<std::int32_t>(begin[55], begin[54], begin[53], begin[52]);
@@ -301,9 +308,13 @@ nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator
 
     m_ground_speed_2d = utilities::convert_4byte_to_int<std::int32_t>(begin[63], begin[62], begin[61], begin[60]);
     constexpr auto heading_scale_factor = 1e-5;
-    m_heading_motion_2d = utilities::convert_4byte_to_int<std::int32_t>(begin[67], begin[66], begin[65], begin[64]) * heading_scale_factor;
-    m_speed_accuracy_estimate = utilities::convert_4byte_to_int<std::uint32_t>(begin[71], begin[70], begin[69], begin[68]);
-    m_heading_accuracy_estimate = utilities::convert_4byte_to_int<std::uint32_t>(begin[75], begin[74], begin[73], begin[72]) * heading_scale_factor;
+    m_heading_motion_2d = utilities::convert_4byte_to_int<std::int32_t>(begin[67], begin[66], begin[65], begin[64]) *
+                          heading_scale_factor;
+    m_speed_accuracy_estimate =
+        utilities::convert_4byte_to_int<std::uint32_t>(begin[71], begin[70], begin[69], begin[68]);
+    m_heading_accuracy_estimate =
+        utilities::convert_4byte_to_int<std::uint32_t>(begin[75], begin[74], begin[73], begin[72]) *
+        heading_scale_factor;
 
     constexpr auto postion_dop_scale_factor = 1e-2;
     m_position_dop = utilities::convert_2byte_to_int<std::int16_t>(begin[77], begin[76]) * postion_dop_scale_factor;
@@ -312,11 +323,14 @@ nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator
     std::memcpy(&m_fix_status_flags3, &fix_status_flags3_raw, sizeof(fix_status_flags3));
 
     constexpr auto heading_vehicle_scale_factor = 1e-5;
-    m_heading_of_vehicle = utilities::convert_4byte_to_int<std::int32_t>(begin[87], begin[86], begin[85], begin[84]) * heading_scale_factor;
+    m_heading_of_vehicle = utilities::convert_4byte_to_int<std::int32_t>(begin[87], begin[86], begin[85], begin[84]) *
+                           heading_scale_factor;
 
     constexpr auto magnetic_declination_scale_factor = 1e-2;
-    m_magnetic_declination = utilities::convert_2byte_to_int<std::int16_t>(begin[89], begin[88]) * magnetic_declination_scale_factor;
-    m_magnetic_declination_accuracy =  utilities::convert_2byte_to_int<std::uint16_t>(begin[91], begin[90]) * magnetic_declination_scale_factor;
+    m_magnetic_declination =
+        utilities::convert_2byte_to_int<std::int16_t>(begin[89], begin[88]) * magnetic_declination_scale_factor;
+    m_magnetic_declination_accuracy =
+        utilities::convert_2byte_to_int<std::uint16_t>(begin[91], begin[90]) * magnetic_declination_scale_factor;
 
     m_status = true;
 }

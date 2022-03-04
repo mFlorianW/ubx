@@ -31,7 +31,6 @@ public:
      */
     constexpr static std::uint8_t cfg_msg_poll_message_length{2};
 
-
     /**
      * Creates an empty message configuration object.
      */
@@ -95,6 +94,7 @@ public:
      */
     template<typename write_iterator>
     bool serialize_poll_message(write_iterator begin, write_iterator end);
+
 private:
     class_id m_class_id{class_id::unknown};
     std::uint8_t m_message_id{0};
@@ -104,10 +104,10 @@ private:
 template<typename read_iterator>
 cfg_msg_message::cfg_msg_message(const read_iterator &begin, const read_iterator &end)
 {
-    static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type,  std::uint8_t>::value,
+    static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < cfg_msg_message_length)
+    if (std::distance(begin, end) < cfg_msg_message_length)
     {
         return;
     }
@@ -152,10 +152,10 @@ inline void cfg_msg_message::set_rate(uint8_t rate)
 template<typename write_iterator>
 bool cfg_msg_message::serialize(write_iterator begin, write_iterator end)
 {
-    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
+    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < cfg_msg_message_length)
+    if (std::distance(begin, end) < cfg_msg_message_length)
     {
         return false;
     }
@@ -170,10 +170,10 @@ bool cfg_msg_message::serialize(write_iterator begin, write_iterator end)
 template<typename write_iterator>
 bool cfg_msg_message::serialize_poll_message(write_iterator begin, write_iterator end)
 {
-    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type,  std::uint8_t>::value,
+    static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if(std::distance(begin, end) < cfg_msg_poll_message_length)
+    if (std::distance(begin, end) < cfg_msg_poll_message_length)
     {
         return false;
     }
@@ -184,6 +184,6 @@ bool cfg_msg_message::serialize_poll_message(write_iterator begin, write_iterato
     return true;
 }
 
-} //namespace ubx
+} // namespace ubx
 
 #endif // UBX_MESSAGE_CONFIGURATION_MESSAGE_HPP

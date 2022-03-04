@@ -6,8 +6,7 @@ using namespace ubx;
 
 TEST_CASE("fix status flags3 shall return true when invalid Llh flag is set otherwise false")
 {
-    auto status_flags = fix_status_flags3
-    {
+    auto status_flags = fix_status_flags3{
         .invalid_llh = true,
     };
 
@@ -50,14 +49,12 @@ TEST_CASE("fix status flags3 shall return last correction values")
 
 TEST_CASE("fix status flags3 shall be able to be compare")
 {
-    auto fix_st_flags = fix_status_flags3
-    {
+    auto fix_st_flags = fix_status_flags3{
         .invalid_llh = true,
         .last_correction_age = last_correction_age::age_between_15_to_20s,
     };
 
-    auto fix_st_flags2 = fix_status_flags3
-    {
+    auto fix_st_flags2 = fix_status_flags3{
         .invalid_llh = true,
         .last_correction_age = last_correction_age::age_between_15_to_20s,
     };
@@ -67,14 +64,12 @@ TEST_CASE("fix status flags3 shall be able to be compare")
 
 TEST_CASE("fix status flags3 shall be able to be check for unequal")
 {
-    auto fix_st_flags = fix_status_flags3
-    {
+    auto fix_st_flags = fix_status_flags3{
         .invalid_llh = true,
         .last_correction_age = last_correction_age::age_between_15_to_20s,
     };
 
-    auto fix_st_flags2 = fix_status_flags3
-    {
+    auto fix_st_flags2 = fix_status_flags3{
         .invalid_llh = true,
         .last_correction_age = last_correction_age::age_between_0_to_1s,
     };

@@ -6,8 +6,7 @@ using namespace ubx;
 
 TEST_CASE("validity flags shall return true when valid date flag is set otherwise false")
 {
-    auto val_flags = validity_flags
-    {
+    auto val_flags = validity_flags{
         .valid_date = true,
     };
 
@@ -18,8 +17,7 @@ TEST_CASE("validity flags shall return true when valid date flag is set otherwis
 
 TEST_CASE("validity flags shall return true when valid time flag is set otherwise false")
 {
-    auto val_flags = validity_flags
-    {
+    auto val_flags = validity_flags{
         .valid_time = true,
     };
 
@@ -30,8 +28,7 @@ TEST_CASE("validity flags shall return true when valid time flag is set otherwis
 
 TEST_CASE("validity flags shall return true when fully resolved flag is set otherwise false")
 {
-    auto val_flags = validity_flags
-    {
+    auto val_flags = validity_flags{
         .fully_resolved = true,
     };
 
@@ -42,8 +39,7 @@ TEST_CASE("validity flags shall return true when fully resolved flag is set othe
 
 TEST_CASE("validity flags shall return true when valid message flag is set otherwise false")
 {
-    auto val_flags = validity_flags
-    {
+    auto val_flags = validity_flags{
         .valid_msg = true,
     };
 
@@ -54,17 +50,15 @@ TEST_CASE("validity flags shall return true when valid message flag is set other
 
 TEST_CASE("validity flags shall be able to be compare")
 {
-    auto val_flags = validity_flags
-    {
-        .valid_date =true,
+    auto val_flags = validity_flags{
+        .valid_date = true,
         .valid_time = false,
         .fully_resolved = false,
         .valid_msg = true,
     };
 
-    auto val_flags2 = validity_flags
-    {
-        .valid_date =true,
+    auto val_flags2 = validity_flags{
+        .valid_date = true,
         .valid_time = false,
         .fully_resolved = false,
         .valid_msg = true,
@@ -75,17 +69,15 @@ TEST_CASE("validity flags shall be able to be compare")
 
 TEST_CASE("validity flags shall be able to check for unequal.")
 {
-    auto val_flags = validity_flags
-    {
-        .valid_date =true,
+    auto val_flags = validity_flags{
+        .valid_date = true,
         .valid_time = false,
         .fully_resolved = false,
         .valid_msg = true,
     };
 
-    auto val_flags2 = validity_flags
-    {
-        .valid_date =true,
+    auto val_flags2 = validity_flags{
+        .valid_date = true,
         .valid_time = false,
         .fully_resolved = true,
         .valid_msg = true,

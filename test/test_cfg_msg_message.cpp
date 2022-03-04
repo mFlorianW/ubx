@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include "ubx_cfg_msg_message.hpp"
 #include "test_raw_messages.hpp"
+#include "ubx_cfg_msg_message.hpp"
 #include <catch2/catch.hpp>
 
 using namespace ubx;
@@ -110,4 +110,3 @@ TEST_CASE("The message configuration poll serialization shall return false when 
     auto msg_cfg = cfg_msg_message{};
     REQUIRE(msg_cfg.serialize_poll_message(msg_buffer.begin(), msg_buffer.end()) == false);
 }
-

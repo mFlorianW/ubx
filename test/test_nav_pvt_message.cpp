@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include "ubx_nav_pvt_message.hpp"
 #include "test_raw_messages.hpp"
+#include "ubx_nav_pvt_message.hpp"
 #include <catch2/catch.hpp>
 
 using namespace ubx;
@@ -50,11 +50,10 @@ TEST_CASE("The nav_pvt message shall return the sec (UTC) from valid data.")
 TEST_CASE("The nav_pvt message shall return the validity flags from valid data.")
 {
     auto nav_pvt = nav_pvt_message{valid_nav_pvt_message.cbegin(), valid_nav_pvt_message.cend()};
-    auto expected_flags = validity_flags
-    {
+    auto expected_flags = validity_flags{
         .valid_date = true,
         .valid_time = false,
-        .fully_resolved =false,
+        .fully_resolved = false,
         .valid_msg = true,
     };
     REQUIRE(nav_pvt.get_validity_flags() == expected_flags);
@@ -75,8 +74,7 @@ TEST_CASE("The nav_pvt message shall return the fraction of second from valid da
 TEST_CASE("The nav_pvt message shall return the fix status flags from valid data.")
 {
     auto nav_pvt = nav_pvt_message{valid_nav_pvt_message.cbegin(), valid_nav_pvt_message.cend()};
-    auto expected_flags = fix_status_flags
-    {
+    auto expected_flags = fix_status_flags{
         .gnss_fix_ok = true,
         .diff_soln = true,
     };
@@ -86,8 +84,7 @@ TEST_CASE("The nav_pvt message shall return the fix status flags from valid data
 TEST_CASE("The nav_pvt message shall return the fix status flags2 from valid data.")
 {
     auto nav_pvt = nav_pvt_message{valid_nav_pvt_message.cbegin(), valid_nav_pvt_message.cend()};
-    auto expected_flags = fix_status_flags2
-    {
+    auto expected_flags = fix_status_flags2{
         .confirmed_date = true,
         .confirmed_time = true,
     };
@@ -187,8 +184,7 @@ TEST_CASE("The nav_pvt message shall return position dop from valid data.")
 TEST_CASE("The nav_pvt message shall return fix status flags3 from valid data.")
 {
     auto nav_pvt = nav_pvt_message{valid_nav_pvt_message.cbegin(), valid_nav_pvt_message.cend()};
-    auto expected_flags = fix_status_flags3
-    {
+    auto expected_flags = fix_status_flags3{
         .invalid_llh = false,
         .last_correction_age = last_correction_age::age_between_10_to_15s,
     };

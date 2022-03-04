@@ -12,7 +12,7 @@ using read_iterator = std::vector<std::uint8_t>::iterator;
 class simple_uint8_message final : public message_base<simple_uint8_message>
 {
 public:
-    template <typename read_iterator>
+    template<typename read_iterator>
     simple_uint8_message(read_iterator &payload_begin, read_iterator &payload_end)
     {
         m_msg_value = *payload_begin;
@@ -27,33 +27,37 @@ private:
     std::uint32_t m_msg_value;
 };
 
-class simple_msg_factory final
+class simple_msg_dispatcher final
 {
 public:
-    template <typename read_iterator>
-    std::unique_ptr<message> create_message(std::uint8_t class_id,
-                                            std::uint8_t message_id,
-                                            read_iterator payload_begin,
-                                            read_iterator payload_end)
+    template<typename msg_handler_t, typename read_iterator>
+    bool create_and_dispatch_message(msg_handler_t &handler,
+                                     std::uint8_t class_id,
+                                     std::uint8_t message_id,
+                                     read_iterator payload_begin,
+                                     read_iterator payload_end)
     {
-        return std::make_unique<simple_uint8_message>(payload_begin, payload_end);
+        auto msg = simple_uint8_message(payload_begin, payload_end);
+        msg.dispatch(handler);
+        return true;
     }
 };
 
 class factory_for_unsupported_messages final
 {
 public:
-    template <typename read_iterator>
-    std::unique_ptr<message> create_message(std::uint8_t class_id,
-                                            std::uint8_t message_id,
-                                            read_iterator payload_begin,
-                                            read_iterator payload_end)
+    template<typename msg_handler_t, typename read_iterator>
+    bool create_and_dispatch_message(msg_handler_t &handler,
+                                     std::uint8_t class_id,
+                                     std::uint8_t message_id,
+                                     read_iterator payload_begin,
+                                     read_iterator payload_end)
     {
-        return nullptr;
+        return false;
     }
 };
 
-class testing_handler : public message_handler<simple_uint8_message>
+class testing_handler
 {
 public:
     void handle(simple_uint8_message &msg)
@@ -89,9 +93,9 @@ auto buffer_with_two_frames = std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 
 
 TEST_CASE("read in frame and dispatch message to the handler")
 {
-    simple_msg_factory msg_factory;
+    simple_msg_dispatcher msg_factory;
     testing_handler msg_handler;
-    frame_processor<simple_msg_factory, testing_handler> frp{msg_factory, msg_handler};
+    frame_processor<simple_msg_dispatcher, testing_handler> frp{msg_factory, msg_handler};
 
     frp.process_data(frame_with_payload.begin(), frame_with_payload.end());
     REQUIRE(msg_handler.is_simple_uint8_handle_called() == true);
@@ -99,9 +103,9 @@ TEST_CASE("read in frame and dispatch message to the handler")
 
 TEST_CASE("read in frame frame but frame starts inside of the buffer and dispatch message to the handler")
 {
-    simple_msg_factory msg_factory;
+    simple_msg_dispatcher msg_factory;
     testing_handler msg_handler;
-    frame_processor<simple_msg_factory, testing_handler> frp{msg_factory, msg_handler};
+    frame_processor<simple_msg_dispatcher, testing_handler> frp{msg_factory, msg_handler};
 
     frp.process_data(frame_with_frame_begin_in_buffer.cbegin(), frame_with_frame_begin_in_buffer.cend());
     REQUIRE(msg_handler.is_simple_uint8_handle_called() == true);
@@ -109,9 +113,9 @@ TEST_CASE("read in frame frame but frame starts inside of the buffer and dispatc
 
 TEST_CASE("read in multiple frames in one buffer")
 {
-    simple_msg_factory msg_factory;
+    simple_msg_dispatcher msg_factory;
     testing_handler msg_handler;
-    frame_processor<simple_msg_factory, testing_handler> frp{msg_factory, msg_handler};
+    frame_processor<simple_msg_dispatcher, testing_handler> frp{msg_factory, msg_handler};
 
     frp.process_data(buffer_with_two_frames.cbegin(), buffer_with_two_frames.cend());
     REQUIRE(msg_handler.how_often_is_handle_called() == 2);

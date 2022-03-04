@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include "ubx_ack_ack_message.hpp"
 #include "test_raw_messages.hpp"
+#include "ubx_ack_ack_message.hpp"
 #include <catch2/catch.hpp>
 
 using namespace ubx;

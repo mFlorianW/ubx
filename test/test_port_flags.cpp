@@ -6,8 +6,7 @@ using namespace ubx;
 
 TEST_CASE("port_flags shall return true when extended_tx_timeout is set")
 {
-    auto flags = port_flags
-    {
+    auto flags = port_flags{
         .extended_tx_timeout = 0x01,
     };
 

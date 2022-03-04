@@ -1,15 +1,15 @@
 #define CATCH_CONFIG_MAIN
-#include "ubx_cfg_prt_message.hpp"
 #include "test_raw_messages.hpp"
+#include "ubx_cfg_prt_message.hpp"
 #include <catch2/catch.hpp>
 
 using namespace ubx;
 
 namespace
 {
-constexpr auto valid_uart0_port_configuration_poll = std::array<std::uint8_t, 1>{ 0x01 };
-constexpr auto valid_uart1_port_configuration_poll = std::array<std::uint8_t, 1>{ 0x02 };
-}
+constexpr auto valid_uart0_port_configuration_poll = std::array<std::uint8_t, 1>{0x01};
+constexpr auto valid_uart1_port_configuration_poll = std::array<std::uint8_t, 1>{0x02};
+} // namespace
 
 TEST_CASE("Default constructed port configuration shall be invalid")
 {
@@ -28,13 +28,7 @@ TEST_CASE("port configuration shall return port from valid data")
 TEST_CASE("uart port configuration shall return tx ready configuration from valid data")
 {
     auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
-    auto expected_tx_ready_cfg = tx_ready_configuration
-    {
-        .enabled = true,
-        .polarity = 1,
-        .pin = 10,
-        .threshold = 0x04
-    };
+    auto expected_tx_ready_cfg = tx_ready_configuration{.enabled = true, .polarity = 1, .pin = 10, .threshold = 0x04};
 
     auto tx_ready_cfg = uart_port_cfg.get_tx_ready_configuration();
 
@@ -44,12 +38,9 @@ TEST_CASE("uart port configuration shall return tx ready configuration from vali
 TEST_CASE("port configuration shall return uart configuration from valid data")
 {
     auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
-    auto expected_uart_cfg = uart_configuration
-    {
-        .data_length = static_cast<std::uint32_t>(data_length::bit7),
-        .parity = static_cast<std::uint32_t>(parity::no_parity),
-        .stop_bits = static_cast<std::uint32_t>(stop_bits::one_stop_bit)
-    };
+    auto expected_uart_cfg = uart_configuration{.data_length = static_cast<std::uint32_t>(data_length::bit7),
+                                                .parity = static_cast<std::uint32_t>(parity::no_parity),
+                                                .stop_bits = static_cast<std::uint32_t>(stop_bits::one_stop_bit)};
 
     auto uart_cfg = uart_port_cfg.get_uart_configuration();
 
@@ -68,8 +59,7 @@ TEST_CASE("port configuration shall return baud_rate configuration from valid da
 TEST_CASE("port configuration shall return protocol_in_mask configuration from valid data")
 {
     auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
-    auto expected_protocol_mask_in = protocol_in_mask
-    {
+    auto expected_protocol_mask_in = protocol_in_mask{
         .ubx_in = true,
         .nema_in = true,
         .rtcm_in = false,
@@ -84,8 +74,7 @@ TEST_CASE("port configuration shall return protocol_in_mask configuration from v
 TEST_CASE("port configuration shall return protocol_out_mask configuration from valid data")
 {
     auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
-    auto expected_protocol_mask_out = protocol_out_mask
-    {
+    auto expected_protocol_mask_out = protocol_out_mask{
         .ubx_out = true,
         .nmea_out = true,
         .rtcm3_out = false,
@@ -99,8 +88,7 @@ TEST_CASE("port configuration shall return protocol_out_mask configuration from 
 TEST_CASE("port configuration shall return port_flags from valid data")
 {
     auto uart_port_cfg = cfg_prt_message{valid_uart_port_config.begin(), valid_uart_port_config.end()};
-    auto expected_port_flags = port_flags
-    {
+    auto expected_port_flags = port_flags{
         .extended_tx_timeout = true,
     };
 
@@ -131,13 +119,7 @@ TEST_CASE("port configuration shall serialize the set tx ready configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
-    auto tx_ready_cfg = tx_ready_configuration
-    {
-        .enabled = true,
-        .polarity = 1,
-        .pin = 10,
-        .threshold = 0x04
-    };
+    auto tx_ready_cfg = tx_ready_configuration{.enabled = true, .polarity = 1, .pin = 10, .threshold = 0x04};
 
     port_cfg.set_tx_ready_configuration(tx_ready_cfg);
     port_cfg.serialize(message_buffer.begin(), message_buffer.end());
@@ -150,12 +132,9 @@ TEST_CASE("port configuration shall serialize the set uart configuration.")
 {
     auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
-    constexpr auto uart_cfg = uart_configuration
-    {
-        .data_length = static_cast<std::uint32_t>(data_length::bit7),
-        .parity = static_cast<std::uint32_t>(parity::no_parity),
-        .stop_bits = static_cast<std::uint32_t>(stop_bits::one_stop_bit)
-    };
+    constexpr auto uart_cfg = uart_configuration{.data_length = static_cast<std::uint32_t>(data_length::bit7),
+                                                 .parity = static_cast<std::uint32_t>(parity::no_parity),
+                                                 .stop_bits = static_cast<std::uint32_t>(stop_bits::one_stop_bit)};
 
     port_cfg.set_uart_configuration(uart_cfg);
     port_cfg.serialize(message_buffer.begin(), message_buffer.end());
@@ -185,8 +164,7 @@ TEST_CASE("port configuration shall serialize the set protocol in mask configura
 {
     auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
-    auto proto_in_mask = protocol_in_mask
-    {
+    auto proto_in_mask = protocol_in_mask{
         .ubx_in = true,
         .nema_in = true,
         .rtcm_in = false,
@@ -204,8 +182,7 @@ TEST_CASE("port configuration shall serialize the set protocol out mask configur
 {
     auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
-    auto proto_out_mask = protocol_out_mask
-    {
+    auto proto_out_mask = protocol_out_mask{
         .ubx_out = true,
         .nmea_out = true,
         .rtcm3_out = false,
@@ -222,8 +199,7 @@ TEST_CASE("port configuration shall serialize the set port flags configuration."
 {
     auto message_buffer = std::array<std::uint8_t, cfg_prt_message::cfg_port_message_length>{0};
     auto port_cfg = cfg_prt_message{};
-    auto prt_flags = port_flags
-    {
+    auto prt_flags = port_flags{
         .extended_tx_timeout = true,
     };
 

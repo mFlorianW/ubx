@@ -6,8 +6,7 @@ using namespace ubx;
 
 TEST_CASE("protocol_mask_out shall give ubx_out to true when set")
 {
-    auto proto_mask_out = protocol_out_mask
-    {
+    auto proto_mask_out = protocol_out_mask{
         .ubx_out = 0x01,
     };
 
@@ -16,8 +15,7 @@ TEST_CASE("protocol_mask_out shall give ubx_out to true when set")
 
 TEST_CASE("protocol_mask_out shall give nmea_out to true when set")
 {
-    auto proto_mask_out = protocol_out_mask
-    {
+    auto proto_mask_out = protocol_out_mask{
         .nmea_out = 0x01,
     };
 
@@ -26,9 +24,8 @@ TEST_CASE("protocol_mask_out shall give nmea_out to true when set")
 
 TEST_CASE("protocol_mask_out shall give rtcm3 to true when set")
 {
-    auto proto_mask_out = protocol_out_mask
-    {
-        .rtcm3_out= 0x01,
+    auto proto_mask_out = protocol_out_mask{
+        .rtcm3_out = 0x01,
     };
 
     REQUIRE(proto_mask_out.is_rtcm3_out_enabled() == true);
