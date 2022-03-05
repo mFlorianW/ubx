@@ -31,7 +31,7 @@ public:
                 return false;
             }
 
-            msg.dispatch(handler);
+            handler.handle(handler);
             return true;
         }
         else if (class_id == ack_ack_message::ack_ack_class_id && message_id == ack_ack_message::ack_ack_message_id)
@@ -42,7 +42,7 @@ public:
                 return false;
             }
 
-            msg.dispatch(handler);
+            handler.handle(handler);
             return true;
         }
         else if (class_id == nav_pvt_message::nav_pvt_class_id && message_id == nav_pvt_message::nav_pvt_message_id)
@@ -53,7 +53,7 @@ public:
                 return false;
             }
 
-            msg.dispatch(handler);
+            handler.handle(handler);
             return true;
         }
         else if (class_id == ack_nack_message::ack_nack_class_id && message_id == ack_nack_message::ack_nack_message_id)
@@ -64,7 +64,7 @@ public:
                 return false;
             }
 
-            msg.dispatch(handler);
+            handler.handle(handler);
             return true;
         }
         else if (class_id == cfg_msg_message::cfg_msg_message_class_id &&
@@ -76,7 +76,7 @@ public:
                 return false;
             }
 
-            msg.dispatch(handler);
+            handler.handle(handler);
             return true;
         }
 
