@@ -2,13 +2,14 @@
 #define FRAME_PROCESSOR_H
 
 #include "ubx_frame.hpp"
+#include "ubx_message_handler.hpp"
 #include <algorithm>
 #include <tuple>
 
 namespace ubx
 {
 
-template<typename message_dispatcher_t, typename message_handler_t>
+template<typename message_dispatcher_t, typename message_handler_t = message_handler>
 class frame_processor
 {
 public:

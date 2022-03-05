@@ -31,7 +31,7 @@ public:
     {
     }
 
-    virtual void hanlde(cfg_prt_message &)
+    virtual void handle(cfg_prt_message &)
     {
     }
 
