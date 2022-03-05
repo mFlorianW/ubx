@@ -96,7 +96,7 @@ TEST_CASE("read in frame and dispatch message to the handler")
 {
     simple_msg_dispatcher msg_factory;
     testing_handler msg_handler;
-    frame_processor<simple_msg_dispatcher, testing_handler> frp{msg_factory, msg_handler};
+    frame_processor<testing_handler, simple_msg_dispatcher> frp{msg_handler, msg_factory};
 
     frp.process_data(frame_with_payload.begin(), frame_with_payload.end());
     REQUIRE(msg_handler.is_simple_uint8_handle_called() == true);
@@ -106,7 +106,7 @@ TEST_CASE("read in frame frame but frame starts inside of the buffer and dispatc
 {
     simple_msg_dispatcher msg_factory;
     testing_handler msg_handler;
-    frame_processor<simple_msg_dispatcher, testing_handler> frp{msg_factory, msg_handler};
+    frame_processor<testing_handler, simple_msg_dispatcher> frp{msg_handler, msg_factory};
 
     frp.process_data(frame_with_frame_begin_in_buffer.cbegin(), frame_with_frame_begin_in_buffer.cend());
     REQUIRE(msg_handler.is_simple_uint8_handle_called() == true);
@@ -116,7 +116,7 @@ TEST_CASE("read in multiple frames in one buffer")
 {
     simple_msg_dispatcher msg_factory;
     testing_handler msg_handler;
-    frame_processor<simple_msg_dispatcher, testing_handler> frp{msg_factory, msg_handler};
+    frame_processor<testing_handler, simple_msg_dispatcher> frp{msg_handler, msg_factory};
 
     frp.process_data(buffer_with_two_frames.cbegin(), buffer_with_two_frames.cend());
     REQUIRE(msg_handler.how_often_is_handle_called() == 2);
@@ -126,7 +126,7 @@ TEST_CASE("handle unsupported message types and igonore them")
 {
     factory_for_unsupported_messages msg_factory;
     testing_handler msg_handler;
-    frame_processor<factory_for_unsupported_messages, testing_handler> frp{msg_factory, msg_handler};
+    frame_processor<testing_handler, factory_for_unsupported_messages> frp{msg_handler, msg_factory};
 
     frp.process_data(frame_with_payload.cbegin(), frame_with_payload.cend());
     REQUIRE(msg_handler.is_simple_uint8_handle_called() == false);

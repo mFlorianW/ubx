@@ -2,6 +2,7 @@
 #define FRAME_PROCESSOR_H
 
 #include "ubx_frame.hpp"
+#include "ubx_message_dispatcher.hpp"
 #include "ubx_message_handler.hpp"
 #include <algorithm>
 #include <tuple>
@@ -9,16 +10,16 @@
 namespace ubx
 {
 
-template<typename message_dispatcher_t, typename message_handler_t = message_handler>
+template<typename message_handler_t = message_handler, typename message_dispatcher_t = message_dispatcher>
 class frame_processor
 {
 public:
     /**
      * Constructs a frame_processor
-     * @param msg_factory The factory to create to create the messages from.
      * @param handler The handler which shall be called when a message is received.
+     * @param msg_dispatcher The factory to create the messages and dispatches to the handler.
      */
-    frame_processor(message_dispatcher_t &msg_dispatcher, message_handler_t &handler)
+    frame_processor(message_handler_t &handler, message_dispatcher_t &msg_dispatcher = message_dispatcher())
         : m_msg_dispatcher(msg_dispatcher)
         , m_msg_handler(handler)
     {
