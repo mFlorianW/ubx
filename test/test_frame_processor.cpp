@@ -9,11 +9,12 @@ using namespace ubx;
 class testing_handler;
 using read_iterator = std::vector<std::uint8_t>::iterator;
 
-class simple_uint8_message final : public message_base<simple_uint8_message>
+class simple_uint8_message final : public message
 {
 public:
     template<typename read_iterator>
     simple_uint8_message(read_iterator &payload_begin, read_iterator &payload_end)
+        : message()
     {
         m_msg_value = *payload_begin;
     }
@@ -38,7 +39,7 @@ public:
                                      read_iterator payload_end)
     {
         auto msg = simple_uint8_message(payload_begin, payload_end);
-        msg.dispatch(handler);
+        handler.handle(msg);
         return true;
     }
 };

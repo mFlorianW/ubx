@@ -23,7 +23,7 @@ enum class fix_type : std::uint8_t
     time_only = 5,
 };
 
-class nav_pvt_message : public message_base<nav_pvt_message>
+class nav_pvt_message : public message
 {
 public:
     /**
@@ -253,6 +253,7 @@ private:
 
 template<typename read_iterator>
 nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator end)
+    : message()
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");

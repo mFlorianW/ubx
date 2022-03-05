@@ -7,6 +7,7 @@
 
 namespace ubx
 {
+
 class message
 {
 public:
@@ -29,21 +30,6 @@ public:
 
 protected:
     bool m_status{false};
-};
-
-template<typename message_t>
-class message_base : public message
-{
-public:
-    /**
-     * Dispatch the message to the given handler.
-     * @param handler The that shall handle the message.
-     */
-    template<typename handler_t>
-    void dispatch(handler_t &handler)
-    {
-        handler.handle(static_cast<message_t &>(*this));
-    }
 };
 
 } // namespace ubx

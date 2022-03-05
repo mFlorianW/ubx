@@ -8,7 +8,7 @@
 namespace ubx
 {
 
-class ack_ack_message final : public message_base<ack_ack_message>
+class ack_ack_message final : public message
 {
 public:
     /**
@@ -28,7 +28,7 @@ public:
 
     ack_ack_message() = default;
 
-    template <typename read_iterator>
+    template<typename read_iterator>
     ack_ack_message(const read_iterator &begin, const read_iterator &end);
 
     std::uint8_t get_acknowledged_class_id() const noexcept;
@@ -40,9 +40,9 @@ private:
     std::uint8_t m_message_id{0};
 };
 
-template <typename read_iterator>
+template<typename read_iterator>
 ack_ack_message::ack_ack_message(const read_iterator &begin, const read_iterator &end)
-    : message_base<ack_ack_message>()
+    : message()
 {
     auto message_reader = ubx_ack_nack_message_reader();
     if (!message_reader.read(begin, end))

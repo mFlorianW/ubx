@@ -7,7 +7,7 @@
 namespace ubx
 {
 
-class ack_nack_message : public message_base<ack_nack_message>
+class ack_nack_message : public message
 {
 public:
     /**
@@ -27,7 +27,7 @@ public:
 
     ack_nack_message() = default;
 
-    template <typename read_iterator>
+    template<typename read_iterator>
     ack_nack_message(const read_iterator &begin, const read_iterator &end);
 
     std::uint8_t get_not_acknowledged_class_id() const noexcept;
@@ -39,9 +39,9 @@ private:
     std::uint8_t m_message_id{0};
 };
 
-template <typename read_iterator>
+template<typename read_iterator>
 ack_nack_message::ack_nack_message(const read_iterator &begin, const read_iterator &end)
-    : message_base<ack_nack_message>()
+    : message()
 {
     auto message_reader = ubx_ack_nack_message_reader();
     if (!message_reader.read(begin, end))

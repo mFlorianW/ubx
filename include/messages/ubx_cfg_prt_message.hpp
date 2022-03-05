@@ -16,7 +16,7 @@
 namespace ubx
 {
 
-class cfg_prt_message final : public message_base<cfg_prt_message>
+class cfg_prt_message final : public message
 {
 public:
     /**
@@ -156,6 +156,7 @@ private:
 
 template<typename read_iterator>
 cfg_prt_message::cfg_prt_message(const read_iterator &begin, const read_iterator &end)
+    : message()
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");

@@ -18,9 +18,6 @@ include(Catch)
 add_executable(test_frame test_frame.cpp)
 target_link_libraries(test_frame PRIVATE Catch2::Catch2 Ubx::Object)
 
-add_executable(test_message test_message.cpp)
-target_link_libraries(test_message PRIVATE Catch2::Catch2 Ubx::Object)
-
 add_executable(test_frame_processor test_frame_processor.cpp)
 target_link_libraries(test_frame_processor PRIVATE Catch2::Catch2 Ubx::Object)
 
@@ -67,7 +64,6 @@ add_executable(test_nav_pvt_message test_nav_pvt_message.cpp)
 target_link_libraries(test_nav_pvt_message PRIVATE Catch2::Catch2 Ubx::Object)
 
 catch_discover_tests(test_frame)
-catch_discover_tests(test_message)
 catch_discover_tests(test_frame_processor)
 catch_discover_tests(test_ack_ack_message)
 catch_discover_tests(test_ack_nack_message)
