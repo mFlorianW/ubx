@@ -63,7 +63,7 @@ inline bool fix_status_flags2::is_time_confirmed()
     return confirmed_time;
 }
 
-bool operator==(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
+inline bool operator==(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
 {
     // clang-format off
     return ((lhs.confirmed_available == rhs.confirmed_available) &&
@@ -72,7 +72,7 @@ bool operator==(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
     // clang-format on
 }
 
-bool operator!=(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
+inline bool operator!=(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
 {
     return !(lhs == rhs);
 }

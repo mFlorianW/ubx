@@ -66,7 +66,7 @@ inline bool fix_status_flags3::is_llh_invalid() const noexcept
     return invalid_llh;
 }
 
-enum last_correction_age fix_status_flags3::get_last_correction_age() const noexcept
+inline enum last_correction_age fix_status_flags3::get_last_correction_age() const noexcept
 {
     return static_cast<enum last_correction_age>(last_correction_age);
 }
