@@ -1,4 +1,5 @@
 #define CATCH_CONFIG_MAIN
+#include "test_raw_messages.hpp"
 #include "ubx_message_dispatcher.hpp"
 #include "ubx_message_handler.hpp"
 #include <catch2/catch.hpp>
@@ -10,18 +11,22 @@ class testing_message_hander : public message_handler
 public:
     void handle(ack_ack_message &msg) override
     {
+        handleAckIsCalled = true;
     }
+
+    bool handleAckIsCalled{false};
 };
 
-TEST_CASE("Compile test only to check if it is possible to override functions of message handler")
+TEST_CASE("Checks if it is possible to override functions of message handler and they got called")
 {
     testing_message_hander handler;
     message_dispatcher dispatcher;
-    std::array<std::uint8_t, 0> emptyFrame;
 
     dispatcher.create_and_dispatch_message(static_cast<message_handler &>(handler),
-                                           0x0,
-                                           0x02,
-                                           emptyFrame.cbegin(),
-                                           emptyFrame.cend());
+                                           ack_ack_message::ack_ack_class_id,
+                                           ack_ack_message::ack_ack_message_id,
+                                           valid_ack_msg.cbegin(),
+                                           valid_ack_msg.cend());
+
+    REQUIRE(handler.handleAckIsCalled == true);
 }

@@ -19,7 +19,7 @@ public:
      * @param handler The handler which shall be called when a message is received.
      * @param msg_dispatcher The factory to create the messages and dispatches to the handler.
      */
-    frame_processor(message_handler_t &handler, message_dispatcher_t &msg_dispatcher = message_dispatcher())
+    frame_processor(message_handler_t &handler, message_dispatcher_t msg_dispatcher = message_dispatcher())
         : m_msg_dispatcher(msg_dispatcher)
         , m_msg_handler(handler)
     {
@@ -58,8 +58,11 @@ public:
     }
 
 private:
-    message_dispatcher_t &m_msg_dispatcher;
+    message_dispatcher_t m_msg_dispatcher;
     message_handler_t &m_msg_handler;
+
+    static_assert(std::is_copy_constructible<message_dispatcher_t>(), "Message dispatcher must be copyable");
+    static_assert(std::is_copy_assignable<message_dispatcher_t>(), "Message dispatcher must be copyable");
 };
 
 } // namespace ubx

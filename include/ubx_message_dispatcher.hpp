@@ -16,7 +16,7 @@ class message_dispatcher
 {
 public:
     template<typename msg_handler_t, typename read_iterator>
-    bool create_and_dispatch_message(msg_handler_t handler,
+    bool create_and_dispatch_message(msg_handler_t &handler,
                                      std::uint8_t class_id,
                                      std::uint8_t message_id,
                                      read_iterator payload_begin,

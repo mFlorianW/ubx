@@ -8,7 +8,6 @@ using namespace ubx;
 
 class testing_handler;
 using read_iterator = std::vector<std::uint8_t>::iterator;
-
 class simple_uint8_message final : public message
 {
 public:
@@ -130,4 +129,11 @@ TEST_CASE("handle unsupported message types and igonore them")
 
     frp.process_data(frame_with_payload.cbegin(), frame_with_payload.cend());
     REQUIRE(msg_handler.is_simple_uint8_handle_called() == false);
+}
+
+TEST_CASE("create frame process without template parameter")
+{
+    message_handler msg_handler;
+    ubx::message_dispatcher msg_dispatcher;
+    frame_processor{msg_handler};
 }
