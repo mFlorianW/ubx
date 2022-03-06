@@ -30,34 +30,61 @@ public:
     template<typename read_iterator>
     void process_data(read_iterator data_begin, read_iterator data_end)
     {
-        frame<read_iterator> fr;
-        while (data_begin != data_end)
+        auto incomingBufferSize = std::distance(data_begin, data_end);
+        auto freeElementsInBuffer = sInternalBufferSize - mWriteIndex;
+        // Buffer is nearly full, reset it and contains only garbage.
+        if (freeElementsInBuffer < incomingBufferSize)
         {
-            if (fr.read(data_begin, data_end) == frame_read_result::ok)
+            mReadIndex = 0;
+            mWriteIndex = 0;
+        }
+
+        // copy incoming data to internal buffer
+        std::copy(data_begin, data_end, mIncomeBuffer.begin() + mWriteIndex);
+        mWriteIndex += incomingBufferSize;
+
+        frame<std::array<std::uint8_t, sInternalBufferSize>::iterator> fr;
+        while (mReadIndex < mWriteIndex)
+        {
+            auto result = fr.read(mIncomeBuffer.begin() + mReadIndex, mIncomeBuffer.end());
+            if (result == frame_read_result::ok)
             {
                 auto dispatched = m_msg_dispatcher.create_and_dispatch_message(m_msg_handler,
                                                                                fr.get_class_id(),
                                                                                fr.get_message_id(),
                                                                                fr.get_payload_begin(),
                                                                                fr.get_payload_end());
-
                 // The message couldn't be created and dispatched
                 if (!dispatched)
                 {
-                    ++data_begin;
+                    ++mReadIndex;
                     continue;
                 }
 
-                data_begin = fr.get_frame_end();
+                mReadIndex += std::distance(mIncomeBuffer.begin() + mReadIndex, fr.get_frame_end());
+            }
+            else if (result == frame_read_result::incomplete_data)
+            {
+                break;
             }
             else
             {
-                ++data_begin;
+                ++mReadIndex;
             }
+        }
+
+        // We computed all data in incoming buffer.
+        if (mReadIndex == mWriteIndex)
+        {
+            mReadIndex = 0;
         }
     }
 
 private:
+    static constexpr std::size_t sInternalBufferSize{300};
+    std::array<std::uint8_t, sInternalBufferSize> mIncomeBuffer;
+    std::size_t mWriteIndex{0};
+    std::size_t mReadIndex{0};
     message_dispatcher_t m_msg_dispatcher;
     message_handler_t &m_msg_handler;
 

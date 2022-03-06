@@ -89,6 +89,8 @@ auto frame_with_frame_begin_in_buffer =
     std::vector<std::uint8_t>{0x12, 0xB5, 0x62, 0x01, 0x22, 0x01, 0x00, 0x20, 0x44, 0xB0};
 auto buffer_with_two_frames = std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x01, 0x00, 0x20, 0x44, 0xB0, 0x22,
                                                         0x24, 0xB5, 0x62, 0x01, 0x22, 0x01, 0x00, 0x20, 0x44, 0xB0};
+auto frame_fragemnt_1 = std::vector<std::uint8_t>{0xB5, 0x62, 0x01, 0x22, 0x01};
+auto frame_fragemnt_2 = std::vector<std::uint8_t>{0x00, 0x20, 0x44, 0xB0};
 } // namespace
 
 TEST_CASE("read in frame and dispatch message to the handler")
@@ -136,4 +138,32 @@ TEST_CASE("create frame process without template parameter")
     message_handler msg_handler;
     ubx::message_dispatcher msg_dispatcher;
     frame_processor{msg_handler};
+}
+
+TEST_CASE("Handle frame fragments and put them together until the full frame is received.")
+{
+    simple_msg_dispatcher msg_factory;
+    testing_handler msg_handler;
+    frame_processor<testing_handler, simple_msg_dispatcher> frp{msg_handler, msg_factory};
+
+    frp.process_data(frame_fragemnt_1.cbegin(), frame_fragemnt_1.cend());
+    frp.process_data(frame_fragemnt_2.cbegin(), frame_fragemnt_2.cend());
+    REQUIRE(msg_handler.is_simple_uint8_handle_called() == true);
+}
+
+TEST_CASE("Handle filled internel buffer. ")
+{
+    simple_msg_dispatcher msg_factory;
+    testing_handler msg_handler;
+    frame_processor<testing_handler, simple_msg_dispatcher> frp{msg_handler, msg_factory};
+
+    std::array<std::uint8_t, 10> bsData{0, 21, 23, 34, 56, 6, 7, 8, 0, 10};
+    // fill internal buffer with bullshit
+    for (int i = 0; i < 30; i++)
+    {
+        frp.process_data(bsData.cbegin(), bsData.cend());
+    }
+
+    frp.process_data(frame_with_payload.cbegin(), frame_with_payload.cend());
+    REQUIRE(msg_handler.is_simple_uint8_handle_called() == true);
 }
