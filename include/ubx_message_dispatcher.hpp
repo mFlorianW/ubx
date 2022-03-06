@@ -5,6 +5,7 @@
 #include "ubx_ack_nack_message.hpp"
 #include "ubx_cfg_msg_message.hpp"
 #include "ubx_cfg_prt_message.hpp"
+#include "ubx_cfg_rate_message.hpp"
 #include "ubx_message.hpp"
 #include "ubx_nav_pvt_message.hpp"
 #include <memory>
@@ -71,6 +72,17 @@ public:
                  message_id == cfg_msg_message::cfg_msg_message_message_id)
         {
             auto msg = cfg_msg_message(payload_begin, payload_end);
+            if (msg.is_valid() == false)
+            {
+                return false;
+            }
+
+            handler.handle(msg);
+            return true;
+        }
+        else if (class_id == cfg_rate_message::class_id && message_id == cfg_rate_message::message_id)
+        {
+            auto msg = cfg_rate_message(payload_begin, payload_end);
             if (msg.is_valid() == false)
             {
                 return false;

@@ -5,6 +5,7 @@
 #include "ubx_ack_nack_message.hpp"
 #include "ubx_cfg_msg_message.hpp"
 #include "ubx_cfg_prt_message.hpp"
+#include "ubx_cfg_rate_message.hpp"
 #include "ubx_nav_pvt_message.hpp"
 
 namespace ubx
@@ -36,6 +37,10 @@ public:
     }
 
     virtual void handle(nav_pvt_message &)
+    {
+    }
+
+    virtual void handle(cfg_rate_message &)
     {
     }
 };

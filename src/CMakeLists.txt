@@ -17,6 +17,7 @@ PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/messages/ubx_cfg_msg_message.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/messages/ubx_cfg_prt_message.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/messages/ubx_nav_pvt_message.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include/messages/ubx_cfg_rate_message.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/private/ubx_ack_nack_message_reader.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/types/ubx_tx_ready_configuration.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/types/ubx_fix_status_flags3.hpp
