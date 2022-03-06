@@ -30,7 +30,7 @@ public:
     /**
      * The message id of the UBX-CFG-RATE message
      */
-    static constexpr std::uint8_t message_id = 0x06;
+    static constexpr std::uint8_t message_id = 0x08;
 
     /**
      * The length of the UBX-CFG-RATE message
