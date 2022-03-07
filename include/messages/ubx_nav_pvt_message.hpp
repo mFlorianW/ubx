@@ -224,7 +224,7 @@ private:
     std::uint8_t m_hour{0};
     std::uint8_t m_minute{0};
     std::uint8_t m_second{0};
-    validity_flags m_validity_flags{0};
+    validity_flags m_validity_flags;
     std::uint32_t m_time_accruacy_estimate{0};
     std::int32_t m_fraction_of_second{0};
     fix_type m_fix_type;
@@ -325,7 +325,7 @@ nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator
 
     constexpr auto heading_vehicle_scale_factor = 1e-5;
     m_heading_of_vehicle = utilities::convert_4byte_to_int<std::int32_t>(begin[87], begin[86], begin[85], begin[84]) *
-                           heading_scale_factor;
+                           heading_vehicle_scale_factor;
 
     constexpr auto magnetic_declination_scale_factor = 1e-2;
     m_magnetic_declination =
