@@ -1,4 +1,0 @@
-
-list(APPEND EXTRA_COMPONENT_DIRS
-    "$ENV{UBX_SOLUTION_PATH}/component"
-)
