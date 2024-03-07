@@ -1,0 +1,21 @@
+#
+# Pre-commit hooks
+#
+default_stages: [pre-commit, manual]
+repos:
+- repo: local
+  hooks:
+    - id: format_license_lgpl
+      name: format_license_lgpl
+      entry: reuse annotate --copyright 'All contributors' --license 'LGPL-2.1-or-later' --merge-copyrights --copyright-style 'spdx'
+      types_or: ["c++", "c"]
+      files: ^(src|include|test)
+      language: python
+      additional_dependencies: ["reuse"]
+
+    - id: check_license
+      name: check_license
+      entry: reuse lint
+      language: python
+      pass_filenames: false
+      additional_dependencies: ["reuse"]
