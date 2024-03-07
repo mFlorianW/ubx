@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 All contributors
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #ifndef UBX_ACK_ACK_MESSAGE_HPP
 #define UBX_ACK_ACK_MESSAGE_HPP
 

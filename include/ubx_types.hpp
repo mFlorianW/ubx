@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 All contributors
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #ifndef __UBXTYPES__H__
 #define __UBXTYPES__H__
 

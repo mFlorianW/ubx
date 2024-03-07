@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 All contributors
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #define CATCH_CONFIG_MAIN
 #include "test_raw_messages.hpp"
 #include "ubx_message_dispatcher.hpp"

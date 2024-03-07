@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 All contributors
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #ifndef UBX_UART_FLAGS_HPP
 #define UBX_UART_FLAGS_HPP
 

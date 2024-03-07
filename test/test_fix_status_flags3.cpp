@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 All contributors
+//
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #define CATCH_CONFIG_MAIN
 #include "ubx_fix_status_flags3.hpp"
 #include <catch2/catch.hpp>
