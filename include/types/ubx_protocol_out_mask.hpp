@@ -20,8 +20,8 @@ struct protocol_out_mask
 
     bool is_rtcm3_out_enabled() const noexcept;
 
-    friend bool operator==(const protocol_out_mask &mask1, const protocol_out_mask &mask2);
-    friend bool operator!=(const protocol_out_mask &mask1, const protocol_out_mask &mask2);
+    friend bool operator==(protocol_out_mask const& mask1, protocol_out_mask const& mask2);
+    friend bool operator!=(protocol_out_mask const& mask1, protocol_out_mask const& mask2);
 
 } __attribute__((packed));
 
@@ -40,7 +40,7 @@ inline bool protocol_out_mask::is_rtcm3_out_enabled() const noexcept
     return rtcm3_out;
 }
 
-inline bool operator==(const protocol_out_mask &mask1, const protocol_out_mask &mask2)
+inline bool operator==(protocol_out_mask const& mask1, protocol_out_mask const& mask2)
 {
     // clang-format off
     //resevered parts are ignored
@@ -50,7 +50,7 @@ inline bool operator==(const protocol_out_mask &mask1, const protocol_out_mask &
     // clang-format on
 }
 
-inline bool operator!=(const protocol_out_mask &mask1, const protocol_out_mask &mask2)
+inline bool operator!=(protocol_out_mask const& mask1, protocol_out_mask const& mask2)
 {
     return !(mask1 == mask2);
 }

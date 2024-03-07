@@ -52,7 +52,7 @@ public:
      * @param end End of the raw data.
      */
     template<typename read_iterator>
-    nav_pvt_message(const read_iterator &begin, const read_iterator end);
+    nav_pvt_message(read_iterator const& begin, read_iterator const end);
 
     /**
      * @return Gives the GPS time of week of the navigation epoch in ms.
@@ -197,7 +197,7 @@ public:
     /**
      * @return Gives the fix status flags3.
      */
-    const fix_status_flags3 &get_fix_status_flags3() const noexcept;
+    fix_status_flags3 const& get_fix_status_flags3() const noexcept;
 
     /**
      * @return Gives the heading of the vehilce 2-D in degree. This
@@ -252,14 +252,13 @@ private:
 };
 
 template<typename read_iterator>
-nav_pvt_message::nav_pvt_message(const read_iterator &begin, const read_iterator end)
+nav_pvt_message::nav_pvt_message(read_iterator const& begin, read_iterator const end)
     : message()
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if (std::distance(begin, end) < nav_pvt_length)
-    {
+    if (std::distance(begin, end) < nav_pvt_length) {
         return;
     }
 
@@ -476,7 +475,7 @@ inline float nav_pvt_message::get_position_dop() const noexcept
     return m_position_dop;
 }
 
-inline const fix_status_flags3 &nav_pvt_message::get_fix_status_flags3() const noexcept
+inline fix_status_flags3 const& nav_pvt_message::get_fix_status_flags3() const noexcept
 {
     return m_fix_status_flags3;
 }

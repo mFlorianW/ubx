@@ -29,7 +29,7 @@ public:
     ack_ack_message() = default;
 
     template<typename read_iterator>
-    ack_ack_message(const read_iterator &begin, const read_iterator &end);
+    ack_ack_message(read_iterator const& begin, read_iterator const& end);
 
     std::uint8_t get_acknowledged_class_id() const noexcept;
 
@@ -41,12 +41,11 @@ private:
 };
 
 template<typename read_iterator>
-ack_ack_message::ack_ack_message(const read_iterator &begin, const read_iterator &end)
+ack_ack_message::ack_ack_message(read_iterator const& begin, read_iterator const& end)
     : message()
 {
     auto message_reader = ubx_ack_nack_message_reader();
-    if (!message_reader.read(begin, end))
-    {
+    if (!message_reader.read(begin, end)) {
         return;
     }
 

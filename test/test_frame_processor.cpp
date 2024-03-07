@@ -12,7 +12,7 @@ class simple_uint8_message final : public message
 {
 public:
     template<typename read_iterator>
-    simple_uint8_message(read_iterator &payload_begin, read_iterator &payload_end)
+    simple_uint8_message(read_iterator& payload_begin, read_iterator& payload_end)
         : message()
     {
         m_msg_value = *payload_begin;
@@ -31,7 +31,7 @@ class simple_msg_dispatcher final
 {
 public:
     template<typename msg_handler_t, typename read_iterator>
-    bool create_and_dispatch_message(msg_handler_t &handler,
+    bool create_and_dispatch_message(msg_handler_t& handler,
                                      std::uint8_t class_id,
                                      std::uint8_t message_id,
                                      read_iterator payload_begin,
@@ -47,7 +47,7 @@ class factory_for_unsupported_messages final
 {
 public:
     template<typename msg_handler_t, typename read_iterator>
-    bool create_and_dispatch_message(msg_handler_t &handler,
+    bool create_and_dispatch_message(msg_handler_t& handler,
                                      std::uint8_t class_id,
                                      std::uint8_t message_id,
                                      read_iterator payload_begin,
@@ -60,7 +60,7 @@ public:
 class testing_handler
 {
 public:
-    void handle(simple_uint8_message &msg)
+    void handle(simple_uint8_message& msg)
     {
         m_simple_uint8_handle_called = true;
         ++m_count_handle_called;
@@ -159,8 +159,7 @@ TEST_CASE("Handle filled internel buffer. ")
 
     std::array<std::uint8_t, 10> bsData{0, 21, 23, 34, 56, 6, 7, 8, 0, 10};
     // fill internal buffer with bullshit
-    for (int i = 0; i < 30; i++)
-    {
+    for (int i = 0; i < 30; i++) {
         frp.process_data(bsData.cbegin(), bsData.cend());
     }
 

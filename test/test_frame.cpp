@@ -82,7 +82,7 @@ TEST_CASE("Detect corrupted data broken preamble")
 TEST_CASE("Return read iterator for payload begin")
 {
     vector_frame fr;
-    const auto expected_iterator = frame_with_payload.cbegin() + 6;
+    auto const expected_iterator = frame_with_payload.cbegin() + 6;
 
     auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
     REQUIRE(result == frame_read_result::ok);
@@ -92,7 +92,7 @@ TEST_CASE("Return read iterator for payload begin")
 TEST_CASE("Return end iterator for the payload")
 {
     vector_frame fr;
-    const auto expected_iterator = frame_with_payload.cbegin() + 7;
+    auto const expected_iterator = frame_with_payload.cbegin() + 7;
 
     auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
     REQUIRE(result == frame_read_result::ok);
@@ -102,7 +102,7 @@ TEST_CASE("Return end iterator for the payload")
 TEST_CASE("Return end iterator for the frame")
 {
     vector_frame fr;
-    const auto expected_iterator = frame_with_payload.cbegin() + 9;
+    auto const expected_iterator = frame_with_payload.cbegin() + 9;
 
     auto result = fr.read(frame_with_payload.cbegin(), frame_with_payload.cend());
     REQUIRE(result == frame_read_result::ok);

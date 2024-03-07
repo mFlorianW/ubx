@@ -50,7 +50,7 @@ struct fix_status_flags3
      * @param rhs right hande side fix status flags3.
      * @return true both are the same otherwise false.
      */
-    friend bool operator==(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs);
+    friend bool operator==(fix_status_flags3 const& lhs, fix_status_flags3 const& rhs);
 
     /**
      * Unequal operator resvered values are ignored.
@@ -58,7 +58,7 @@ struct fix_status_flags3
      * @param rhs right hande side fix status flags3.
      * @return true both are the not equal, otherwise false.
      */
-    friend bool operator!=(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs);
+    friend bool operator!=(fix_status_flags3 const& lhs, fix_status_flags3 const& rhs);
 } __attribute__((packed));
 
 inline bool fix_status_flags3::is_llh_invalid() const noexcept
@@ -71,7 +71,7 @@ inline enum last_correction_age fix_status_flags3::get_last_correction_age() con
     return static_cast<enum last_correction_age>(last_correction_age);
 }
 
-inline bool operator==(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs)
+inline bool operator==(fix_status_flags3 const& lhs, fix_status_flags3 const& rhs)
 {
     // clang-format off
     return ((lhs.invalid_llh == rhs.invalid_llh) &&
@@ -79,7 +79,7 @@ inline bool operator==(const fix_status_flags3 &lhs, const fix_status_flags3 &rh
     // clang-format on
 }
 
-inline bool operator!=(const fix_status_flags3 &lhs, const fix_status_flags3 &rhs)
+inline bool operator!=(fix_status_flags3 const& lhs, fix_status_flags3 const& rhs)
 {
     return !(lhs == rhs);
 }

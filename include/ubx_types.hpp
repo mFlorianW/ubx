@@ -31,7 +31,6 @@ enum class port_id : std::uint8_t
     uart1 = 0x02
 };
 
-} //ubx
+} // namespace ubx
 
-
-#endif  //!__UBXTYPES__H__
+#endif //!__UBXTYPES__H__

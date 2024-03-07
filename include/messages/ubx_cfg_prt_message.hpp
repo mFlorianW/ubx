@@ -52,7 +52,7 @@ public:
      * @param end End of the message buffer.
      */
     template<typename read_iterator>
-    cfg_prt_message(const read_iterator &begin, const read_iterator &end);
+    cfg_prt_message(read_iterator const& begin, read_iterator const& end);
 
     /**
      * @return Gives the port id.
@@ -68,35 +68,35 @@ public:
     /**
      * @return Gives the tx_ready_configuration.
      */
-    const tx_ready_configuration &get_tx_ready_configuration() const noexcept;
+    tx_ready_configuration const& get_tx_ready_configuration() const noexcept;
 
     /**
      * Sets a tx_ready_configuration.
      * @param ready_cfg The new tx_ready_configuration.
      */
-    void set_tx_ready_configuration(const tx_ready_configuration &tx_ready_cfg);
+    void set_tx_ready_configuration(tx_ready_configuration const& tx_ready_cfg);
 
     /**
      * @return Gives the tx_uart_configuration.
      */
-    const uart_configuration &get_uart_configuration() const noexcept;
+    uart_configuration const& get_uart_configuration() const noexcept;
 
     /**
      * Set a uart_configuration
      * @param uart_cfg The new uart configuration.
      */
-    void set_uart_configuration(const uart_configuration &uart_cfg);
+    void set_uart_configuration(uart_configuration const& uart_cfg);
 
     /**
      * @return Gives the protocol_in_mask.
      */
-    const protocol_in_mask &get_protocol_in_mask() const noexcept;
+    protocol_in_mask const& get_protocol_in_mask() const noexcept;
 
     /**
      * Sets a new protocol in mask.
      * @param proto_in_mask The protocol in mask.
      */
-    void set_protocol_in_mask(const protocol_in_mask &proto_in_mask);
+    void set_protocol_in_mask(protocol_in_mask const& proto_in_mask);
 
     /**
      * @return Gives the baud_rate.
@@ -112,24 +112,24 @@ public:
     /**
      * @return Gives the protocol_out_mask.
      */
-    const protocol_out_mask &get_protocol_out_mask() const noexcept;
+    protocol_out_mask const& get_protocol_out_mask() const noexcept;
 
     /**
      * Set a new protocol out mask.
      * @param proto_out_mask The new protocol out mask
      */
-    void set_protocol_out_mask(const protocol_out_mask &proto_out_mask);
+    void set_protocol_out_mask(protocol_out_mask const& proto_out_mask);
 
     /**
      * @return Gives the port_flags.
      */
-    const port_flags &get_port_flags() const noexcept;
+    port_flags const& get_port_flags() const noexcept;
 
     /**
      * Set new port flags configuration.
      * @param prt_flags New port flags configuration.
      */
-    void set_port_flags(const port_flags &prt_flags);
+    void set_port_flags(port_flags const& prt_flags);
 
     /**
      * Serialize the message into the given buffer with begin and end. The buffer must have the
@@ -155,15 +155,14 @@ private:
 };
 
 template<typename read_iterator>
-cfg_prt_message::cfg_prt_message(const read_iterator &begin, const read_iterator &end)
+cfg_prt_message::cfg_prt_message(read_iterator const& begin, read_iterator const& end)
     : message()
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
     constexpr std::uint8_t payload_length = 20;
-    if (std::distance(begin, end) < payload_length)
-    {
+    if (std::distance(begin, end) < payload_length) {
         return;
     }
 
@@ -199,32 +198,32 @@ inline void cfg_prt_message::set_port_id(port_id id)
     m_port_id = id;
 }
 
-inline const tx_ready_configuration &cfg_prt_message::get_tx_ready_configuration() const noexcept
+inline tx_ready_configuration const& cfg_prt_message::get_tx_ready_configuration() const noexcept
 {
     return m_tx_ready_cfg;
 }
 
-inline void cfg_prt_message::set_tx_ready_configuration(const tx_ready_configuration &tx_ready_cfg)
+inline void cfg_prt_message::set_tx_ready_configuration(tx_ready_configuration const& tx_ready_cfg)
 {
     m_tx_ready_cfg = tx_ready_cfg;
 }
 
-inline const uart_configuration &cfg_prt_message::get_uart_configuration() const noexcept
+inline uart_configuration const& cfg_prt_message::get_uart_configuration() const noexcept
 {
     return m_uart_cfg;
 }
 
-inline void cfg_prt_message::set_uart_configuration(const uart_configuration &uart_cfg)
+inline void cfg_prt_message::set_uart_configuration(uart_configuration const& uart_cfg)
 {
     m_uart_cfg = uart_cfg;
 }
 
-inline const protocol_in_mask &cfg_prt_message::get_protocol_in_mask() const noexcept
+inline protocol_in_mask const& cfg_prt_message::get_protocol_in_mask() const noexcept
 {
     return m_protocol_in_mask;
 }
 
-inline void cfg_prt_message::set_protocol_in_mask(const protocol_in_mask &proto_in_mask)
+inline void cfg_prt_message::set_protocol_in_mask(protocol_in_mask const& proto_in_mask)
 {
     m_protocol_in_mask = proto_in_mask;
 }
@@ -239,22 +238,22 @@ inline void cfg_prt_message::set_baud_rate(uint32_t baudrate)
     m_baud_rate = baudrate;
 }
 
-inline const protocol_out_mask &cfg_prt_message::get_protocol_out_mask() const noexcept
+inline protocol_out_mask const& cfg_prt_message::get_protocol_out_mask() const noexcept
 {
     return m_protocol_out_mask;
 }
 
-inline void cfg_prt_message::set_protocol_out_mask(const protocol_out_mask &proto_out_mask)
+inline void cfg_prt_message::set_protocol_out_mask(protocol_out_mask const& proto_out_mask)
 {
     m_protocol_out_mask = proto_out_mask;
 }
 
-inline const port_flags &cfg_prt_message::get_port_flags() const noexcept
+inline port_flags const& cfg_prt_message::get_port_flags() const noexcept
 {
     return m_port_flags;
 }
 
-inline void cfg_prt_message::set_port_flags(const port_flags &prt_flags)
+inline void cfg_prt_message::set_port_flags(port_flags const& prt_flags)
 {
     m_port_flags = prt_flags;
 }
@@ -320,8 +319,7 @@ inline bool cfg_prt_message::serialize_poll_message(write_iterator begin, write_
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if (std::distance(begin, end) < cfg_port_poll_message_length)
-    {
+    if (std::distance(begin, end) < cfg_port_poll_message_length) {
         return false;
     }
 

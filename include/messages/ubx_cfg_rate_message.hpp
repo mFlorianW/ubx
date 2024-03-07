@@ -50,7 +50,7 @@ public:
      * @param end End of the message buffer.
      */
     template<typename read_iterator>
-    cfg_rate_message(const read_iterator &begin, const read_iterator &end);
+    cfg_rate_message(read_iterator const& begin, read_iterator const& end);
 
     /**
      * @return Gives the meas rate in ms.
@@ -102,14 +102,13 @@ private:
 };
 
 template<typename read_iterator>
-cfg_rate_message::cfg_rate_message(const read_iterator &begin, const read_iterator &end)
+cfg_rate_message::cfg_rate_message(read_iterator const& begin, read_iterator const& end)
     : message()
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if (std::distance(begin, end) < message_length)
-    {
+    if (std::distance(begin, end) < message_length) {
         return;
     }
 
@@ -153,8 +152,7 @@ inline void cfg_rate_message::set_time_ref(time_ref time_ref)
 template<typename write_iterator>
 bool cfg_rate_message::serialize(write_iterator begin, write_iterator end)
 {
-    if (std::distance(begin, end) < message_length)
-    {
+    if (std::distance(begin, end) < message_length) {
         return false;
     }
 

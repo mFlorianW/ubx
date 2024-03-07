@@ -69,7 +69,7 @@ struct fix_status_flags
      * @param rhs right hande side fix status flags.
      * @return true both are the same otherwise false.
      */
-    friend bool operator==(const fix_status_flags &lhs, const fix_status_flags &rhs);
+    friend bool operator==(fix_status_flags const& lhs, fix_status_flags const& rhs);
 
     /**
      * Unequal operator resvered values are ignored.
@@ -77,7 +77,7 @@ struct fix_status_flags
      * @param rhs right hande side fix status flags.
      * @return true both are the not equal, otherwise false.
      */
-    friend bool operator!=(const fix_status_flags &lhs, const fix_status_flags &rhs);
+    friend bool operator!=(fix_status_flags const& lhs, fix_status_flags const& rhs);
 } __attribute__((packed));
 
 inline bool fix_status_flags::is_gnss_fix_ok() const noexcept
@@ -105,7 +105,7 @@ inline carrier_phase_range_solution_status fix_status_flags::get_carrier_phase_s
     return static_cast<carrier_phase_range_solution_status>(carrier_phase_range_solution);
 }
 
-inline bool operator==(const fix_status_flags &lhs, const fix_status_flags &rhs)
+inline bool operator==(fix_status_flags const& lhs, fix_status_flags const& rhs)
 {
     // clang-format off
     return ((lhs.gnss_fix_ok == rhs.gnss_fix_ok) &&

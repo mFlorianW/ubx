@@ -43,7 +43,7 @@ struct validity_flags
      * @param rhs right hande side validity flags.
      * @return true both are the same otherwise false.
      */
-    friend bool operator==(const validity_flags &lhs, const validity_flags &rhs);
+    friend bool operator==(validity_flags const& lhs, validity_flags const& rhs);
 
     /**
      * Unequal operator resvered values are ignored.
@@ -51,7 +51,7 @@ struct validity_flags
      * @param rhs right hande side validity flags.
      * @return true both are the not equal, otherwise false.
      */
-    friend bool operator!=(const validity_flags &lhs, const validity_flags &rhs);
+    friend bool operator!=(validity_flags const& lhs, validity_flags const& rhs);
 } __attribute__((packed));
 
 inline bool validity_flags::is_date_valid() const noexcept
@@ -74,7 +74,7 @@ inline bool validity_flags::is_msg_valid() const noexcept
     return valid_msg;
 }
 
-inline bool operator==(const validity_flags &lhs, const validity_flags &rhs)
+inline bool operator==(validity_flags const& lhs, validity_flags const& rhs)
 {
     // clang-format off
     return ((lhs.valid_date == rhs.valid_date) &&
@@ -84,7 +84,7 @@ inline bool operator==(const validity_flags &lhs, const validity_flags &rhs)
     // clang-format on
 }
 
-inline bool operator!=(const validity_flags &lhs, const validity_flags &rhs)
+inline bool operator!=(validity_flags const& lhs, validity_flags const& rhs)
 {
     return !(lhs == rhs);
 }

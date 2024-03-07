@@ -73,7 +73,7 @@ public:
      * @return frame_read_result::corrupted_data when the frame contains corrupted data.
      * @return frame_read_result::ok frame succesful read.
      */
-    frame_read_result read(const read_iterator &frame_begin, const read_iterator &frame_end)
+    frame_read_result read(read_iterator const& frame_begin, read_iterator const& frame_end)
     {
         static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                       "The iterator must be of type std::unit8_t");
@@ -81,14 +81,12 @@ public:
         constexpr size_t frame_header_size = 6;
         constexpr size_t frame_crc_length = 2;
         auto len = std::distance(frame_begin, frame_end);
-        if (len < frame_header_size)
-        {
+        if (len < frame_header_size) {
             return frame_read_result::incomplete_data;
         }
 
         // Check for preamble
-        if (frame_begin[0] != 0xb5 || frame_begin[1] != 0x62)
-        {
+        if (frame_begin[0] != 0xb5 || frame_begin[1] != 0x62) {
             return frame_read_result::corrupted_frame;
         }
 
@@ -97,13 +95,11 @@ public:
         m_payload_length = utilities::convert_2byte_to_int<std::uint16_t>(frame_begin[5], frame_begin[4]);
 
         constexpr size_t checksum_length = 2;
-        if (len < frame_header_size + m_payload_length + checksum_length)
-        {
+        if (len < frame_header_size + m_payload_length + checksum_length) {
             return frame_read_result::incomplete_data;
         }
 
-        if (calculate_checksum(frame_begin, len) != frame_read_result::ok)
-        {
+        if (calculate_checksum(frame_begin, len) != frame_read_result::ok) {
             return frame_read_result::checksum_error;
         }
 
@@ -117,7 +113,7 @@ public:
      * @note Is only valid after read(...) results with frame_read_result::ok.
      * @return Gives the iterator where the payload starts.
      */
-    const read_iterator &get_payload_begin() const noexcept
+    read_iterator const& get_payload_begin() const noexcept
     {
         return m_payload_begin;
     }
@@ -126,18 +122,18 @@ public:
      * @note Is only valid after read(...) results with frame_read_result::ok.
      * @return Gives the iterator where the payload ends.
      */
-    const read_iterator &get_payload_end() const noexcept
+    read_iterator const& get_payload_end() const noexcept
     {
         return m_payload_end;
     }
 
-    const read_iterator &get_frame_end() const noexcept
+    read_iterator const& get_frame_end() const noexcept
     {
         return m_frame_end;
     }
 
 private:
-    frame_read_result calculate_checksum(const read_iterator &raw_frame, size_t len)
+    frame_read_result calculate_checksum(read_iterator const& raw_frame, size_t len)
     {
         std::uint8_t received_cka = raw_frame[6 + m_payload_length];
         std::uint8_t received_ckb = raw_frame[7 + m_payload_length];
@@ -147,8 +143,7 @@ private:
         auto length_of_checksum_data = m_payload_length + constant_frame_data;
         auto checksum = utilities::calculate_checksum(raw_frame + 2, length_of_checksum_data);
 
-        if (checksum.ck_a != received_cka || checksum.ck_b != received_ckb)
-        {
+        if (checksum.ck_a != received_cka || checksum.ck_b != received_ckb) {
             return frame_read_result::checksum_error;
         }
 

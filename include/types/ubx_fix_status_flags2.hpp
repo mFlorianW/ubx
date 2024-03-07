@@ -37,7 +37,7 @@ struct fix_status_flags2
      * @param rhs right hande side fix status flags2.
      * @return true both are the same otherwise false.
      */
-    friend bool operator==(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs);
+    friend bool operator==(fix_status_flags2 const& lhs, fix_status_flags2 const& rhs);
 
     /**
      * Unequal operator resvered values are ignored.
@@ -45,7 +45,7 @@ struct fix_status_flags2
      * @param rhs right hande side fix status flags2.
      * @return true both are the not equal, otherwise false.
      */
-    friend bool operator!=(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs);
+    friend bool operator!=(fix_status_flags2 const& lhs, fix_status_flags2 const& rhs);
 } __attribute__((packed));
 
 inline bool fix_status_flags2::is_confirmed_available() const noexcept
@@ -63,7 +63,7 @@ inline bool fix_status_flags2::is_time_confirmed()
     return confirmed_time;
 }
 
-inline bool operator==(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
+inline bool operator==(fix_status_flags2 const& lhs, fix_status_flags2 const& rhs)
 {
     // clang-format off
     return ((lhs.confirmed_available == rhs.confirmed_available) &&
@@ -72,7 +72,7 @@ inline bool operator==(const fix_status_flags2 &lhs, const fix_status_flags2 &rh
     // clang-format on
 }
 
-inline bool operator!=(const fix_status_flags2 &lhs, const fix_status_flags2 &rhs)
+inline bool operator!=(fix_status_flags2 const& lhs, fix_status_flags2 const& rhs)
 {
     return !(lhs == rhs);
 }

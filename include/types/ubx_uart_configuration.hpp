@@ -44,8 +44,8 @@ struct uart_configuration
 
     ubx::stop_bits get_stop_bits() const noexcept;
 
-    friend bool operator==(const uart_configuration &cfg1, const uart_configuration &cfg2);
-    friend bool operator!=(const uart_configuration &cfg1, const uart_configuration &cfg2);
+    friend bool operator==(uart_configuration const& cfg1, uart_configuration const& cfg2);
+    friend bool operator!=(uart_configuration const& cfg1, uart_configuration const& cfg2);
 
 } __attribute__((packed));
 
@@ -64,7 +64,7 @@ inline ubx::stop_bits uart_configuration::get_stop_bits() const noexcept
     return static_cast<ubx::stop_bits>(stop_bits);
 }
 
-inline bool operator==(const uart_configuration &cfg1, const uart_configuration &cfg2)
+inline bool operator==(uart_configuration const& cfg1, uart_configuration const& cfg2)
 {
     // clang-format off
     // The reservered areas are ignored.
@@ -74,7 +74,7 @@ inline bool operator==(const uart_configuration &cfg1, const uart_configuration 
     // clang-format on
 }
 
-inline bool operator!=(const uart_configuration &cfg1, const uart_configuration &cfg2)
+inline bool operator!=(uart_configuration const& cfg1, uart_configuration const& cfg2)
 {
     return !(cfg1 == cfg2);
 }

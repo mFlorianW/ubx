@@ -13,8 +13,8 @@ struct port_flags
 
     bool is_extended_tx_timeout_enabled() const noexcept;
 
-    friend bool operator==(const port_flags &flags1, const port_flags &flags2);
-    friend bool operator!=(const port_flags &flags1, const port_flags &flags2);
+    friend bool operator==(port_flags const& flags1, port_flags const& flags2);
+    friend bool operator!=(port_flags const& flags1, port_flags const& flags2);
 
 } __attribute__((packed));
 
@@ -23,12 +23,12 @@ inline bool port_flags::is_extended_tx_timeout_enabled() const noexcept
     return extended_tx_timeout;
 }
 
-inline bool operator==(const port_flags &flags1, const port_flags &flags2)
+inline bool operator==(port_flags const& flags1, port_flags const& flags2)
 {
     // resevered parts are ignored.
     return flags1.extended_tx_timeout == flags2.extended_tx_timeout;
 }
-inline bool operator!=(const port_flags &flags1, const port_flags &flags2)
+inline bool operator!=(port_flags const& flags1, port_flags const& flags2)
 {
     return !(flags1 == flags2);
 }

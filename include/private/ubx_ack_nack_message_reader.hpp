@@ -13,7 +13,7 @@ public:
     ubx_ack_nack_message_reader() = default;
 
     template<typename read_iterator>
-    bool read(const read_iterator &begin, const read_iterator &end);
+    bool read(read_iterator const& begin, read_iterator const& end);
 
     std::uint8_t get_class_id() const;
 
@@ -25,14 +25,13 @@ private:
 };
 
 template<typename read_iterator>
-bool ubx_ack_nack_message_reader::read(const read_iterator &begin, const read_iterator &end)
+bool ubx_ack_nack_message_reader::read(read_iterator const& begin, read_iterator const& end)
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
     constexpr size_t msg_size = 2;
-    if (std::distance(begin, end) < msg_size)
-    {
+    if (std::distance(begin, end) < msg_size) {
         return false;
     }
 

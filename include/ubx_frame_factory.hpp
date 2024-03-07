@@ -13,8 +13,8 @@ namespace ubx::frame_factory
 template<typename write_iterator, typename read_iterator>
 bool create_frame(std::int8_t class_id,
                   std::uint8_t message_id,
-                  const read_iterator &payload_begin,
-                  const read_iterator &payload_end,
+                  read_iterator const& payload_begin,
+                  read_iterator const& payload_end,
                   write_iterator frame_begin,
                   write_iterator frame_end)
 {
@@ -38,8 +38,7 @@ bool create_frame(std::int8_t class_id,
     constexpr auto payload_index_begin = static_cast<std::uint16_t>(6);
     auto payload_index = static_cast<std::uint16_t>(0);
     auto payload_end_index = static_cast<std::uint16_t>(payload_index_begin + payload_length_raw);
-    for (std::uint16_t i = payload_index_begin; i < payload_end_index; ++i)
-    {
+    for (std::uint16_t i = payload_index_begin; i < payload_end_index; ++i) {
         frame_begin[i] = payload_begin[payload_index];
         ++payload_index;
     }
@@ -47,7 +46,7 @@ bool create_frame(std::int8_t class_id,
     // put checksum
     constexpr size_t constant_checksum_length = 4;
     size_t checksum_length = constant_checksum_length + payload_length_raw;
-    const auto checksum_result = utilities::calculate_checksum(frame_begin + 2, checksum_length);
+    auto const checksum_result = utilities::calculate_checksum(frame_begin + 2, checksum_length);
 
     frame_begin[6 + payload_length_raw] = checksum_result.ck_a;
     frame_begin[6 + payload_length_raw + 1] = checksum_result.ck_b;

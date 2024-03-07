@@ -10,11 +10,11 @@ struct tx_ready_configuration
     std::uint16_t pin : 5;
     std::uint16_t threshold : 9;
 
-    friend bool operator==(const tx_ready_configuration &cfg1, const tx_ready_configuration &cfg2);
-    friend bool operator!=(const tx_ready_configuration &cfg1, const tx_ready_configuration &cfg2);
+    friend bool operator==(tx_ready_configuration const& cfg1, tx_ready_configuration const& cfg2);
+    friend bool operator!=(tx_ready_configuration const& cfg1, tx_ready_configuration const& cfg2);
 } __attribute__((packed));
 
-inline bool operator==(const tx_ready_configuration &cfg1, const tx_ready_configuration &cfg2)
+inline bool operator==(tx_ready_configuration const& cfg1, tx_ready_configuration const& cfg2)
 {
     // clang-format off
     return (cfg1.enabled == cfg2.enabled &&
@@ -24,7 +24,7 @@ inline bool operator==(const tx_ready_configuration &cfg1, const tx_ready_config
     // clang-format on
 }
 
-inline bool operator!=(const tx_ready_configuration &cfg1, const tx_ready_configuration &cfg2)
+inline bool operator!=(tx_ready_configuration const& cfg1, tx_ready_configuration const& cfg2)
 {
     return !(cfg1 == cfg2);
 }

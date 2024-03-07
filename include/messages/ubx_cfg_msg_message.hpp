@@ -42,7 +42,7 @@ public:
      * @param end payload end
      */
     template<typename read_iterator>
-    cfg_msg_message(const read_iterator &begin, const read_iterator &end);
+    cfg_msg_message(read_iterator const& begin, read_iterator const& end);
 
     /**
      * @return Gives the class id.
@@ -102,14 +102,13 @@ private:
 };
 
 template<typename read_iterator>
-cfg_msg_message::cfg_msg_message(const read_iterator &begin, const read_iterator &end)
+cfg_msg_message::cfg_msg_message(read_iterator const& begin, read_iterator const& end)
     : message()
 {
     static_assert(std::is_same<typename std::iterator_traits<read_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if (std::distance(begin, end) < cfg_msg_message_length)
-    {
+    if (std::distance(begin, end) < cfg_msg_message_length) {
         return;
     }
 
@@ -156,8 +155,7 @@ bool cfg_msg_message::serialize(write_iterator begin, write_iterator end)
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if (std::distance(begin, end) < cfg_msg_message_length)
-    {
+    if (std::distance(begin, end) < cfg_msg_message_length) {
         return false;
     }
 
@@ -174,8 +172,7 @@ bool cfg_msg_message::serialize_poll_message(write_iterator begin, write_iterato
     static_assert(std::is_same<typename std::iterator_traits<write_iterator>::value_type, std::uint8_t>::value,
                   "The iterator must be of type std::unit8_t");
 
-    if (std::distance(begin, end) < cfg_msg_poll_message_length)
-    {
+    if (std::distance(begin, end) < cfg_msg_poll_message_length) {
         return false;
     }
 

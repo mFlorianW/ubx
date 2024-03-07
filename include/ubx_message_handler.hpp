@@ -16,31 +16,31 @@ class message_handler
 public:
     virtual ~message_handler() = default;
 
-    virtual void handle(message &)
+    virtual void handle(message&)
     {
     }
 
-    virtual void handle(ack_ack_message &)
+    virtual void handle(ack_ack_message&)
     {
     }
 
-    virtual void handle(ack_nack_message &)
+    virtual void handle(ack_nack_message&)
     {
     }
 
-    virtual void handle(cfg_msg_message &)
+    virtual void handle(cfg_msg_message&)
     {
     }
 
-    virtual void handle(cfg_prt_message &)
+    virtual void handle(cfg_prt_message&)
     {
     }
 
-    virtual void handle(nav_pvt_message &)
+    virtual void handle(nav_pvt_message&)
     {
     }
 
-    virtual void handle(cfg_rate_message &)
+    virtual void handle(cfg_rate_message&)
     {
     }
 };
