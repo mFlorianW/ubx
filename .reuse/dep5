@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Ubx
+Upstream-Contact: Florian Weßel <florianwessel@gmx.net>
+Source: https://github.com/mFlorianW/ubx
+
+Files: .gitignore .github/* .pre-commit-config.yaml *CMakeLists.txt *.cmake.in CMakePresets.json .clang-format .clang-tidy docs/*.in format.sh configuration/*.cmake configuration/*.sh *.md
+Copyright: 2020 - 2024 All contributors
+License: GPL-2.0-or-later
